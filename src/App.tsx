@@ -43,9 +43,13 @@ const counterWorker = new EasyWebWorker<Payload>((easy) => {
 
     if (isRunning) {
       startRunning(message);
-    } else {
-      stopRunning();
+
+      return;
     }
+
+    stopRunning();
+
+    message.resolve();
   });
 });
 
@@ -61,10 +65,16 @@ function App() {
     const { current } = state;
 
     current.isRunning = !current.isRunning;
+    console.log('start progress');
 
-    counterWorker.send({ isRunning: current.isRunning }).onProgress((count) => {
-      ref.current.style.width = `${count}%`;
-    });
+    counterWorker
+      .send({ isRunning: current.isRunning })
+      .onProgress((count) => {
+        ref.current.style.width = `${count}%`;
+      })
+      .then(() => {
+        console.log('worker finished');
+      });
   };
 
   return (
