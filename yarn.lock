@@ -221,10 +221,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.1.tgz#841b532c45c758ee546a11d5bd7b7b473c8c30b9"
   integrity sha512-DJR/VvkAvSZW9bTouZue2sSxDwdTN92uHjqeKVm+0dAqdfNykRzQ95tay8aXMBAAPpUiq4Qcug2L7neoRh2Egw==
 
-easy-web-worker@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/easy-web-worker/-/easy-web-worker-1.1.1.tgz#3ebefb629899a7439c35f39388b80379e2b9d88c"
-  integrity sha512-ClGtSPQXxR9+wkiK7Auf1vGu1pGRbRzuh9BMPcD9ccXxGPdyoXHxAkc3OJVEM869gxr6KeD36zzM4TFAMLXFjA==
+easy-web-worker@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/easy-web-worker/-/easy-web-worker-1.1.8.tgz#c93b58ccc0d34fb3f86888d481fd0e159acec924"
+  integrity sha512-cESuYjTKZ1thI09I9cKaTaW+xmG02gv+JNbF7IoN3YF5iKTwBrJmHsfGdt347dI0Xf3OxNpi70zrv4+Q0dyGnQ==
 
 esbuild@^0.17.5:
   version "0.17.13"

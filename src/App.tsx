@@ -2,7 +2,8 @@ import { useRef } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
-import { EasyWebWorker, IEasyWebWorkerMessage } from 'easy-web-worker';
+import { EasyWebWorker } from 'easy-web-worker';
+import { IEasyWebWorkerMessage } from 'easy-web-worker/lib/EasyWebWorker';
 
 const progressStyle = {
   height: '20px',
@@ -41,15 +42,12 @@ const counterWorker = new EasyWebWorker<Payload>((easy) => {
       payload: { isRunning },
     } = message;
 
-    if (isRunning) {
-      startRunning(message);
+    // @ts-ignore
+    message.onCancel(() => {
+      stopRunning();
+    });
 
-      return;
-    }
-
-    stopRunning();
-
-    message.resolve();
+    startRunning(message);
   });
 });
 
@@ -59,20 +57,28 @@ function App() {
   const state = useRef({
     count: 0,
     isRunning: false,
+    promise: null,
   });
 
   const handleToggleProgress = () => {
     const { current } = state;
 
-    current.isRunning = !current.isRunning;
+    if (current.isRunning) {
+      current.promise.cancel();
+      current.isRunning = false;
+
+      return;
+    }
+
+    current.isRunning = true;
     console.log('start progress');
 
-    counterWorker
+    current.promise = counterWorker
       .send({ isRunning: current.isRunning })
       .onProgress((count) => {
         ref.current.style.width = `${count}%`;
       })
-      .then(() => {
+      .catch(() => {
         console.log('worker finished');
       });
   };
