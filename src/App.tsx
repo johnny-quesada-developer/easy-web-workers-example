@@ -42,7 +42,6 @@ const counterWorker = new EasyWebWorker<Payload>((easy) => {
       payload: { isRunning },
     } = message;
 
-    // @ts-ignore
     message.onCancel(() => {
       stopRunning();
     });

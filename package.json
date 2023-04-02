@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "cancelable-promise-jq": "^1.1.1",
-    "easy-web-worker": "^1.1.8",
+    "cancelable-promise-jq": "^1.1.2",
+    "easy-web-worker": "^1.1.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
