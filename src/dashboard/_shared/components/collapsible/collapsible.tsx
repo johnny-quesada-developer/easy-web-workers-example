@@ -2,13 +2,17 @@ import { PropsWithChildren, useCallback, useRef } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "./collapsible.scss";
 
-type CollapsibleProps = PropsWithChildren<{
-  title: string | JSX.Element;
-}>;
+type CollapsibleProps = PropsWithChildren<
+  React.HTMLAttributes<HTMLElement> & {
+    title: string | JSX.Element;
+  }
+>;
 
 export const Collapsible: React.FC<CollapsibleProps> = ({
   children,
   title,
+  className,
+  ...props
 }: CollapsibleProps) => {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -38,17 +42,13 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
     <details
       ref={detailsRef}
       open={true}
-      onClick={toggle}
       className="collapsible open marker:no-underline"
     >
       <summary
         className="list-none flex justify-between items-center cursor-pointer"
         onClick={toggle}
       >
-        <button
-          className="flex justify-between flex-1 text-left border-b border-gray-200 pb-2"
-          onClick={toggle}
-        >
+        <button className="flex justify-between flex-1 text-left border-b border-gray-200 pb-2">
           <div className="">
             {isStringTitle ? (
               <h3 className="font-bold text-blue-400">{title}</h3>
@@ -63,7 +63,10 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
         </button>
       </summary>
 
-      <div className="collapsible-details overflow-hidden animation-fill-mode-forwards">
+      <div
+        className={`collapsible-details overflow-hidden animation-fill-mode-forwards ${className}`}
+        {...props}
+      >
         {children}
       </div>
     </details>

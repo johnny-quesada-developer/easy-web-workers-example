@@ -27,7 +27,7 @@
 }
 
 .app {
-  grid-template-rows: auto 1fr;
+  grid-template-rows: repeat(2, auto);
 }
 
 @include md() {

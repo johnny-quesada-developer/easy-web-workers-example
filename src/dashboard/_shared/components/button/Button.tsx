@@ -1,16 +1,18 @@
-import { tryCatchPromise } from "cancelable-promise-jq";
+import { isPromise, tryCatch, tryCatchPromise } from "cancelable-promise-jq";
 import { PropsWithChildren, useCallback, useRef } from "react";
+import { ImSpinner } from "react-icons/im";
 
 type ButtonProps = Omit<
   PropsWithChildren<React.ButtonHTMLAttributes<HTMLButtonElement>>,
   "onClick"
 > & {
-  onClick: <R = void>() => R | Promise<R>;
+  onClick?: <R = void>() => R | Promise<R>;
 };
 
 export const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
+  className,
   ...props
 }: ButtonProps): JSX.Element => {
   const state = useRef({
@@ -28,22 +30,38 @@ export const Button: React.FC<ButtonProps> = ({
         return;
       }
 
+      const spinner =
+        event.currentTarget.querySelector<HTMLElement>(".loading-indicator");
+
       current.isRunning = true;
+      spinner.classList.remove("hidden");
 
-      const { error } = await tryCatchPromise(() => onClick());
+      try {
+        const promise = onClick?.();
+        const isPromise = Promise.resolve(promise) === promise;
 
-      current.isRunning = false;
+        if (!isPromise) return;
 
-      if (!error) return;
-
-      throw error;
+        await promise;
+      } catch (error) {
+        throw error;
+      } finally {
+        current.isRunning = false;
+        spinner.classList.add("hidden");
+      }
     },
     [onClick]
   );
 
   return (
-    <button onClick={handleClick} {...props} className="flex gap-3">
+    <button
+      onClick={handleClick}
+      {...props}
+      className={`flex gap-3 justify-center items-center ${className}`}
+    >
       <div>{children}</div>
+
+      <ImSpinner className="loading-indicator animate-spin hidden" />
     </button>
   );
 };

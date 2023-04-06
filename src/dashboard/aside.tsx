@@ -6,7 +6,7 @@ export const Aside = () => {
   const [{ isMenuOpen }, actions] = useAsideState();
 
   useEffect(() => {
-    const handler = (event: Event) => {
+    const handler = () => {
       const minWidth = 768;
 
       if (window.innerWidth >= minWidth) {
@@ -27,7 +27,7 @@ export const Aside = () => {
 
   return (
     <aside
-      className={`absolute w-full md:relative lg:relative lg:w-72 md:w-72 border-r border-r-gray-200 bg-white p-6 h-full overflow-hidden ${
+      className={`absolute w-full md:relative lg:relative lg:w-72 md:w-72 border-r border-r-gray-200 border-opacity-80 bg-white p-6 h-full overflow-hidden ${
         isMenuOpen
           ? "animate-expand-from-left"
           : "animate-collapse-to-left animation-fill-mode-forwards"
