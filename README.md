@@ -2,7 +2,7 @@
 
 # Easy Web Worker
 
-Easy Web Worker is a lightweight and easy-to-use library for creating web workers in JavaScript applications. With Easy Web Worker, you can move computationally expensive tasks and logic off the main thread and into a separate thread, improving the performance and responsiveness of your application.
+Easy Web Worker is a lightweight and easy-to-use library for creating web workers in JavaScript applications. With Easy Web Worker, you can move computationally expensive tasks and logic off the main thread and into a separate thread, improving the performance and responsiveness of your application. [Live Example](https://johnny-quesada-developer.github.io/easy-web-workers-example/)
 
 ## Benefits
 

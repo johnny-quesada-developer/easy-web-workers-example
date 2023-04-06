@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mixin for md screens */
+@mixin md() {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+/* Mixin for lg screens */
+@mixin lg() {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+.app {
+  grid-template-rows: auto 1fr;
+}
+
+@include md() {
+  .app {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+@include lg() {
+  .app {
+    grid-template-columns: auto 1fr;
+  }
+}
