@@ -1,21 +1,60 @@
 import { useAsideState } from "./_shared";
-import { TbLayoutSidebarLeftCollapse } from "react-icons/tb";
+import { IoIosArrowBack } from "react-icons/io";
+import { useEffect } from "react";
 
 export const Aside = () => {
-  const [{ isMenuOpen }] = useAsideState();
+  const [{ isMenuOpen }, actions] = useAsideState();
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const minWidth = 768;
+
+      if (window.innerWidth >= minWidth) {
+        actions.open();
+
+        return;
+      }
+
+      actions.close();
+    };
+
+    window.addEventListener("resize", handler);
+
+    return () => {
+      window.removeEventListener("resize", handler);
+    };
+  }, []);
 
   return (
     <aside
       className={`absolute w-full md:relative lg:relative lg:w-72 md:w-72 border-r border-r-gray-200 bg-white p-6 h-full overflow-hidden ${
-        isMenuOpen ? "animate-collapse-to-left" : "animate-expand-from-left"
+        isMenuOpen
+          ? "animate-expand-from-left"
+          : "animate-collapse-to-left animation-fill-mode-forwards"
       }`}
     >
-      <h2 className="text-lg font-bold text-gray-700 flex justify-between items-center whitespace-nowrap">
-        Easy Web Worker Examples
-        <button className="md:hidden lg:hidden">
-          <TbLayoutSidebarLeftCollapse fontSize={26} color="#60a5fa" />
-        </button>
-      </h2>
+      <div className="lg:w-60 md:w-60 ">
+        <div className="flex justify-between items-center ">
+          <strong>Easy Web Worker</strong>
+
+          <button
+            className="md:hidden lg:hidden"
+            title="collapse"
+            onClick={actions.close}
+          >
+            <IoIosArrowBack fontSize={26} color="#60a5fa" />
+          </button>
+        </div>
+
+        <p className="text-gray-700 text-justify mt-3">
+          is a lightweight and easy-to-use library for creating web workers in
+          JavaScript applications. With Easy Web Worker, you can move
+          computationally expensive tasks and logic off the main thread and into
+          a separate thread, improving the performance and responsiveness of
+          your application. The library has several benefits, including improved
+          performance, an easy-to-use API, and TypeScript support.
+        </p>
+      </div>
     </aside>
   );
 };

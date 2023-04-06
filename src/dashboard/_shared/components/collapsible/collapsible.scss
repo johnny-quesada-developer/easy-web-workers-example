@@ -1,0 +1,33 @@
+@keyframes animate-collapse-to-top {
+  to {
+    height: 0;
+  }
+}
+
+@keyframes animate-expand-to-bottom {
+  from {
+    height: 0;
+  }
+}
+
+details.collapsible {
+  &:not(.open) {
+    .collapsible-close-arrow {
+      display: none;
+    }
+
+    .collapsible-details {
+      animation: animate-collapse-to-top 0.2s ease-in forwards;
+    }
+  }
+
+  &.open {
+    .collapsible-open-arrow {
+      display: none;
+    }
+
+    .collapsible-details {
+      animation: animate-expand-to-bottom 0.2s ease-out;
+    }
+  }
+}

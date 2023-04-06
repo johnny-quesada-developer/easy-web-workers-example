@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .animation-fill-mode-forwards {
+    animation-fill-mode: forwards;
+  }
+}
+
+* {
+  font-family: "georgia", serif;
+}
+
 /* Mixin for md screens */
 @mixin md() {
   @media (min-width: 768px) {
@@ -30,4 +40,20 @@
   .app {
     grid-template-columns: auto 1fr;
   }
+}
+
+@include md() {
+  .main-grid {
+    grid-template-columns: 200px 1fr;
+  }
+}
+
+@include lg() {
+  .main-grid {
+    grid-template-columns: 25% 1fr;
+  }
+}
+
+strong {
+  font-size: 1rem;
 }

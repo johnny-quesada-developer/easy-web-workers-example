@@ -1,5 +1,5 @@
 import { GiHamburgerMenu } from "react-icons/gi";
-import { TbLayoutSidebarRightCollapse } from "react-icons/tb";
+import { IoIosArrowBack } from "react-icons/io";
 
 import { useAsideState } from "./_shared";
 
@@ -12,7 +12,7 @@ export const Header = () => {
         className={isMenuOpen ? "animate-fade-in" : "hidden"}
         onClick={actions.close}
       >
-        <TbLayoutSidebarRightCollapse color="white" />
+        <IoIosArrowBack color="white" />
       </button>
 
       <button

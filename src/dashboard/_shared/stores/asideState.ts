@@ -1,4 +1,4 @@
-import { GlobalStore, StoreTools } from 'react-global-state-hooks';
+import { GlobalStore, StoreTools } from "react-global-state-hooks";
 
 export type AsideState = {
   isMenuOpen: boolean;
@@ -6,19 +6,19 @@ export type AsideState = {
 
 const asideStore = new GlobalStore(
   {
-    isMenuOpen: false,
+    isMenuOpen: true,
   } as AsideState,
   null,
   {
     open() {
       return ({ setState }: StoreTools<AsideState>) => {
-        setState({ isMenuOpen: true });
+        setState((state) => ({ ...state, isMenuOpen: true }));
       };
     },
 
     close() {
       return ({ setState }: StoreTools<AsideState>) => {
-        setState({ isMenuOpen: false });
+        setState((state) => ({ ...state, isMenuOpen: false }));
       };
     },
   } as const
