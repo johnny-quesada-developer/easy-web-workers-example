@@ -1,1 +1,1 @@
-export * from "./difflib";
+export * from "./text-diff";

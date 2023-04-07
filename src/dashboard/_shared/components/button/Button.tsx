@@ -6,7 +6,7 @@ type ButtonProps = Omit<
   PropsWithChildren<React.ButtonHTMLAttributes<HTMLButtonElement>>,
   "onClick"
 > & {
-  onClick?: <R = void>() => R | Promise<R>;
+  onClick?: () => void | Promise<void>;
 };
 
 export const Button: React.FC<ButtonProps> = ({
