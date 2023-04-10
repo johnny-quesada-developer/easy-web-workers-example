@@ -3,16 +3,25 @@ import { Button } from "../../../../_shared/components/button";
 import { useCallback, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { DiffLibExampleComparePayload } from "./textDiffExample.types";
+import workerScript from "./textDiffExample.worker?worker&url";
 
-const workerUrl = new URL("./textDiffExample.worker.ts", import.meta.url);
+// with vite we create the worker in different ways depending on if we are in production or development
+const easyWebWorker = (() => {
+  const mode = import.meta.env.MODE;
 
-const worker = new Worker(workerUrl, {
-  type: "module",
-});
+  if (mode === "production") {
+    return new EasyWebWorker(workerScript);
+  }
 
-const easyWebWorker = new EasyWebWorker(worker, {
-  url: workerUrl.href,
-});
+  const workerUrl = new URL("./textDiffExample.worker.ts", import.meta.url);
+  const worker = new Worker(workerUrl, {
+    type: "module",
+  });
+
+  return new EasyWebWorker(worker, {
+    url: workerUrl.href,
+  });
+})();
 
 export const TextDiffExample = () => {
   const formRef = useRef(null);

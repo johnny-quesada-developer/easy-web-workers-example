@@ -25,7 +25,7 @@ npm install easy-web-worker
 Once you have installed Easy Web Worker, you can import the `createWorker` function and use it to create a new web worker:
 
 ```tsx
-import { EasyWebWorker } from 'easy-web-worker';
+import { EasyWebWorker } from "easy-web-worker";
 
 type Payload = {
   isRunning: boolean;
@@ -72,7 +72,7 @@ const counterWorker = new EasyWebWorker<Payload>((easy) => {
 
 // ... to use your worker in whatever place
 const handleToggleProgress = (isRunning: boolean) => {
-  console.log('start progress');
+  console.log("start progress");
 
   counterWorker
     // send a new message to the worker
@@ -83,7 +83,7 @@ const handleToggleProgress = (isRunning: boolean) => {
     })
     // the messages returns CancelablePromise from cancelable-promise-jq which
     .then(() => {
-      console.log('worker finished');
+      console.log("worker finished");
     });
 };
 ```
