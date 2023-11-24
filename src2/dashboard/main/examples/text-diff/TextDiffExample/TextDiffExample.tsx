@@ -3,7 +3,7 @@ import { Button } from "../../../../_shared/components/Button";
 import { useCallback, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { DiffLibExampleComparePayload } from "./TextDiffExample.types";
-import workerScript from "./textDiffExample.worker?worker&url";
+import workerScript from "./TextDiffExample.worker?worker&url";
 
 // with vite we create the worker in different ways depending on if we are in production or development
 const easyWebWorker = (() => {
