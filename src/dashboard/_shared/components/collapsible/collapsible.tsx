@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import "./collapsible.scss";
+import "./Collapsible.scss";
 
 type CollapsibleProps = PropsWithChildren<
   React.HTMLAttributes<HTMLElement> & {
