@@ -1,4 +1,4 @@
-import "./textDiffExample.scss";
+import "./TextDiffExample.scss";
 import { Button } from "../../../../_shared/components/Button";
 import { useCallback, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
