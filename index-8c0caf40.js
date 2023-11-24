@@ -20980,7 +20980,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
   });
 })(ey);
 var ty = ey.exports;
-const bS = '/TextDiffExample.worker-b0e9f34d.js',
+const bS = 'TextDiffExample.worker-b0e9f34d.js',
   OS = (() => new ty.EasyWebWorker(bS))(),
   CS = () => {
     const e = pt.useRef(null),
@@ -21115,7 +21115,7 @@ const bS = '/TextDiffExample.worker-b0e9f34d.js',
       }),
     });
   };
-const NS = '/ImagesExample.worker-3308e10a.js',
+const NS = 'ImagesExample.worker-3308e10a.js',
   LS = (() => new ty.EasyWebWorker(NS))(),
   IS = () => {
     var P, T;
