@@ -1,0 +1,15 @@
+.text-diff-example-inputs-grid {
+  grid-template-rows: auto auto auto;
+}
+
+.text-diff-example-result {
+  del {
+    background-color: #ffe6e6;
+    color: #990000;
+  }
+
+  ins {
+    background-color: #e6ffe6;
+    color: #006600;
+  }
+}
