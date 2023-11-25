@@ -1,5 +1,5 @@
 import "./TextDiffExample.scss";
-import { Button } from "../../../../_shared/components/Button";
+import { Button } from "../../../_shared";
 import { useCallback, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { DiffLibExampleComparePayload } from "./TextDiffExample.types";
@@ -23,7 +23,10 @@ const easyWebWorker = (() => {
   });
 })();
 
-export const TextDiffExample = () => {
+export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
+  className,
+  ...props
+}) => {
   const formRef = useRef(null);
   const [result, setResult] = useState("");
 
@@ -51,7 +54,7 @@ export const TextDiffExample = () => {
   }, [formRef.current]);
 
   return (
-    <>
+    <div className={`${className} mt-3`} {...props}>
       <h3 className="font-bold text-gray-500 border-b border-gray-200 pb-2">
         Comparing text input with{" "}
         <strong className=" text-black">JSDifflib</strong> and{" "}
@@ -110,6 +113,6 @@ export const TextDiffExample = () => {
           }}
         ></div>
       </form>
-    </>
+    </div>
   );
 };

@@ -1,2 +1,2 @@
-export * from "./text-diff";
-export * from "./images";
+export * from "./ImagesExample";
+export * from "./TextDiffExample";

@@ -1,7 +1,8 @@
 import {
   PropsWithChildren,
-  useCallback,
+  forwardRef,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
 } from "react";
@@ -15,81 +16,107 @@ type CollapsibleProps = PropsWithChildren<
   }
 >;
 
-export const Collapsible: React.FC<CollapsibleProps> = ({
-  children,
-  title,
-  className,
-  isOpen,
-  ...props
-}: CollapsibleProps) => {
-  const detailsRef = useRef<HTMLDetailsElement>(null);
+export type CollapsibleRef = {
+  open: () => void;
+  close: () => void;
+};
 
-  const [isCollapsibleOpen, setCollapsibleState] = useState(isOpen);
+export const Collapsible = forwardRef<unknown, CollapsibleProps>(
+  ({ children, title, className, isOpen, ...props }: CollapsibleProps, ref) => {
+    const detailsRef = useRef<HTMLDetailsElement>(null);
 
-  const toggle = useCallback(
-    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const [isCollapsibleOpen, setCollapsibleState] = useState(isOpen);
+
+    const toggle = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
       event?.preventDefault();
 
       setCollapsibleState((prevState) => !prevState);
-    },
-    []
-  );
 
-  useEffect(() => {
-    const { current } = detailsRef;
+      const content = detailsRef.current.querySelector(
+        ".collapsible-details"
+      ) as HTMLElement;
 
-    if (!current) return;
+      if (isCollapsibleOpen) {
+        // to perform the animation the height must be set
+        content.style.height = content.clientHeight + "px";
+      }
+    };
 
-    if (isCollapsibleOpen) {
-      detailsRef.current.classList.add("open");
+    useEffect(() => {
+      const { current } = detailsRef;
 
-      return;
-    }
+      if (!current) return;
 
-    detailsRef.current.classList.remove("open");
-  }, [isCollapsibleOpen]);
+      if (isCollapsibleOpen) {
+        detailsRef.current.classList.add("open");
 
-  useEffect(() => {
-    setCollapsibleState(isOpen);
-  }, [isOpen]);
+        return;
+      }
 
-  const isStringTitle = typeof title === "string";
+      detailsRef.current.classList.remove("open");
+    }, [isCollapsibleOpen]);
 
-  return (
-    <details
-      ref={detailsRef}
-      open={true}
-      className="collapsible marker:no-underline"
-    >
-      <summary
-        className="list-none flex justify-between items-center cursor-pointer"
-        onClick={toggle}
+    useEffect(() => {
+      setCollapsibleState(isOpen);
+    }, [isOpen]);
+
+    useImperativeHandle<unknown, CollapsibleRef>(
+      ref,
+      () => ({
+        open: () => {
+          setCollapsibleState(true);
+        },
+        close: () => {
+          setCollapsibleState(false);
+        },
+      }),
+      []
+    );
+
+    const isStringTitle = typeof title === "string";
+
+    return (
+      <details
+        {...props}
+        ref={detailsRef}
+        open={true}
+        className={`${className} collapsible marker:no-underline`}
       >
-        <button
-          className={`flex justify-between items-center flex-1 text-left ${
-            isCollapsibleOpen ? "pb-2 border-b border-gray-200" : ""
+        <summary
+          className="list-none flex justify-between items-center cursor-pointer"
+          onClick={toggle}
+        >
+          <button
+            className={`flex justify-between items-center flex-1 text-left ${
+              isCollapsibleOpen ? "pb-2 border-b border-gray-200" : ""
+            }`}
+          >
+            <div className="">
+              {isStringTitle ? (
+                <h3 className="font-bold text-blue-400">{title}</h3>
+              ) : (
+                title
+              )}
+            </div>
+
+            <IoIosArrowUp className="text-blue-400 collapsible-close-arrow" />
+
+            <IoIosArrowDown className="text-blue-400 collapsible-open-arrow" />
+          </button>
+        </summary>
+
+        <div
+          className={`
+          collapsible-details overflow-hidden animation-fill-mode-forwards
+          ${
+            isCollapsibleOpen
+              ? "animate-expand-from-top"
+              : "animate-collapse-to-top"
           }`}
         >
-          <div className="">
-            {isStringTitle ? (
-              <h3 className="font-bold text-blue-400">{title}</h3>
-            ) : (
-              title
-            )}
-          </div>
-
-          <IoIosArrowUp className="text-blue-400 collapsible-close-arrow" />
-
-          <IoIosArrowDown className="text-blue-400 collapsible-open-arrow" />
-        </button>
-      </summary>
-
-      <div
-        className={`collapsible-details overflow-hidden animation-fill-mode-forwards ${className}`}
-        {...props}
-      >
-        {children}
-      </div>
-    </details>
-  );
-};
+          {children}
+        </div>
+      </details>
+    );
+  }
+);

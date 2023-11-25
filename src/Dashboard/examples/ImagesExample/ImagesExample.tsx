@@ -2,7 +2,7 @@ import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { ImageExamplePayload } from "./ImagesExample.types";
 import workerScript from "./ImagesExample.worker?worker&url";
-import { Button } from "../../../../_shared/components/Button";
+import { Button } from "../../../_shared/";
 
 // with vite we create the worker in different ways depending on if we are in production or development
 const easyWebWorker = (() => {
@@ -22,7 +22,10 @@ const easyWebWorker = (() => {
   });
 })();
 
-export const ImagesExample = () => {
+export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
+  className,
+  ...props
+}) => {
   const imageRef = useRef<HTMLImageElement>(null);
 
   const [sourceImage, setSourceImage] = useState<File>(null);
@@ -97,7 +100,7 @@ export const ImagesExample = () => {
   }, [scalePercentage]);
 
   return (
-    <>
+    <div className={`${className}`} {...props}>
       <h3 className="font-bold text-gray-500 border-b border-gray-200 pb-2">
         Lets play with images and{" "}
         <strong className="text-black">EasyWebWorker</strong>
@@ -220,6 +223,6 @@ export const ImagesExample = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

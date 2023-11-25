@@ -1,14 +1,24 @@
-import { useSelectedExample } from "../_shared/stores/SelectedExample";
+import { useSelectedExample } from "../_shared";
 import { ImagesExample, TextDiffExample } from "./examples";
+import React from "react";
+import { IntroExample } from "./examples/IntroExample";
 
 export type CurrentExampleProps = {};
 
-export const CurrentExample: React.FC<CurrentExampleProps> = () => {
+export const CurrentExample: React.FC<CurrentExampleProps> = React.memo(() => {
   const [{ name: exampleName }] = useSelectedExample();
 
-  if (exampleName === "images") {
-    return <ImagesExample />;
-  }
+  return (
+    <div>
+      <ImagesExample
+        className={`${exampleName === "images" ? "" : "hidden"}`}
+      />
 
-  return <TextDiffExample />;
-};
+      <TextDiffExample
+        className={`${exampleName === "text-diff" ? "" : "hidden"}`}
+      />
+
+      <IntroExample className={`${exampleName === "intro" ? "" : "hidden"}`} />
+    </div>
+  );
+});

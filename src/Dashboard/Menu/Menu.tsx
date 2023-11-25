@@ -1,8 +1,9 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { MenuState, getMenuState, useMenuState } from "../../_shared";
+import { IntroExampleSummary } from "./IntroExampleSummary";
 import { Card } from "../../_shared/components";
-import { DiffLibExampleSummary, ImagesExampleSummary } from "../examples";
-import { Intro } from "./Intro";
+import { DiffLibExampleSummary } from "./DiffLibExampleSummary";
+import { ImagesExampleSummary } from "./ImagesExampleSummary";
 
 export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
@@ -39,6 +40,31 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     return unsubscribe;
   }, []);
 
+  const options = useMemo(() => {
+    return (
+      <ul className={`flex flex-col gap-6 w-full`}>
+        {[
+          {
+            key: "intro",
+            component: <IntroExampleSummary />,
+          },
+          {
+            key: "diff-lib",
+            component: <DiffLibExampleSummary />,
+          },
+          {
+            key: "images",
+            component: <ImagesExampleSummary />,
+          },
+        ].map(({ key, component }) => (
+          <Card key={key}>
+            <li>{component}</li>
+          </Card>
+        ))}
+      </ul>
+    );
+  }, []);
+
   return (
     <aside
       ref={asideRef}
@@ -57,18 +83,7 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
           : "animate-collapse-to-top md:animate-collapse-to-left lg:animate-collapse-to-left"
       }`}
     >
-      <ul className={`flex flex-col gap-6 w-full`}>
-        <li>
-          <Intro />
-        </li>
-
-        <li>
-          <DiffLibExampleSummary />
-        </li>
-        <li>
-          <ImagesExampleSummary />
-        </li>
-      </ul>
+      {options}
     </aside>
   );
 };
