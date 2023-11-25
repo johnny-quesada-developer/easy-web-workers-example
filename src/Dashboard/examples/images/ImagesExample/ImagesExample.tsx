@@ -1,4 +1,3 @@
-import "./ImagesExample.scss";
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { ImageExamplePayload } from "./ImagesExample.types";
@@ -143,6 +142,36 @@ export const ImagesExample = () => {
                 }}
               />
 
+              <Button
+                className="bg-blue-400 text-white px-4 py-1 rounded-sm"
+                onClick={() => {
+                  setScalePercentage((prev) => {
+                    const value = prev + 1;
+
+                    if (value > 150) return prev;
+
+                    return value;
+                  });
+                }}
+              >
+                +
+              </Button>
+
+              <Button
+                className="bg-blue-400 text-white px-4 py-1 rounded-sm"
+                onClick={() => {
+                  setScalePercentage((prev) => {
+                    const value = prev - 1;
+
+                    if (value < 1) return prev;
+
+                    return value;
+                  });
+                }}
+              >
+                -
+              </Button>
+
               {isResizing && (
                 <span className="text-gray-500 text-sm">Resizing...</span>
               )}
@@ -186,7 +215,9 @@ export const ImagesExample = () => {
             )}
           </div>
 
-          <img ref={imageRef} id="imageResult" className="mt-3 border" />
+          <div className="mt-3 p-6 border-2 border-dashed border-gray-300 flex justify-center">
+            <img ref={imageRef} id="imageResult" className="" />
+          </div>
         </div>
       </div>
     </>

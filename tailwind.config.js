@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src2/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       keyframes: {
@@ -27,7 +27,6 @@ export default {
             height: "0",
             padding: "0",
             pointerEvents: "none",
-            backgroundColor: "red",
             overflow: "hidden",
           },
         },
@@ -37,12 +36,19 @@ export default {
             opacity: 0,
           },
         },
+        "expand-from-top": {
+          "0%": {
+            height: "0",
+            opacity: 0,
+          },
+        },
       },
       animation: {
         "fade-in": "fade-in 1s ease-out",
         "collapse-to-left": "collapse-to-left 0.5s ease-out",
         "expand-from-left": "expand-from-left 0.5s ease-in",
-        "collapse-to-top": "collapse-to-top 1s ease-in",
+        "collapse-to-top": "collapse-to-top 0.5s ease-in",
+        "expand-from-top": "expand-from-top 0.5s ease-out",
       },
     },
   },

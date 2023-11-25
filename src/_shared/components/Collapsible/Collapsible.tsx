@@ -65,7 +65,11 @@ export const Collapsible: React.FC<CollapsibleProps> = ({
         className="list-none flex justify-between items-center cursor-pointer"
         onClick={toggle}
       >
-        <button className="flex justify-between flex-1 text-left border-b border-gray-200 pb-2">
+        <button
+          className={`flex justify-between items-center flex-1 text-left ${
+            isCollapsibleOpen ? "pb-2 border-b border-gray-200" : ""
+          }`}
+        >
           <div className="">
             {isStringTitle ? (
               <h3 className="font-bold text-blue-400">{title}</h3>

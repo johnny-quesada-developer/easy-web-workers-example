@@ -1,11 +1,11 @@
 import { createGlobalState, StoreTools } from "react-global-state-hooks";
 
 export type SelectedExample = {
-  name: "text-diff" | "images";
+  name: "text-diff" | "images" | "intro";
 };
 
 const initialState: SelectedExample = {
-  name: "text-diff",
+  name: "intro",
 };
 
 export const useSelectedExample = createGlobalState(initialState);

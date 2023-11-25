@@ -1,18 +1,56 @@
+import React, { useEffect } from "react";
 import { Card } from "../_shared/components";
 import { CurrentExample } from "./CurrentExample";
-import { DiffLibExampleSummary, ImagesExampleSummary } from "./examples";
+import { menuStateActions } from "../_shared";
+import { Menu } from "./Menu/Menu";
 
-export const Main = () => {
+export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({
+  className,
+  style,
+  ...props
+}) => {
+  useEffect(() => {
+    const handler = () => {
+      const minWidth = 768;
+
+      if (window.innerWidth >= minWidth) {
+        menuStateActions.open();
+
+        return;
+      }
+
+      menuStateActions.close();
+    };
+
+    window.addEventListener("resize", handler);
+
+    return () => {
+      window.removeEventListener("resize", handler);
+    };
+  }, []);
+
   return (
-    <main className="main-grid grid grid-cols-1 p-6 gap-6">
-      <ul className="">
-        <DiffLibExampleSummary />
-        <ImagesExampleSummary />
-      </ul>
+    <main
+      {...props}
+      className={`
+      ${className} 
+      
+      dashboard p-6 grid`}
+      style={{
+        ...style,
+      }}
+    >
+      <Menu />
 
-      <Card className="">
-        <CurrentExample />
-      </Card>
+      <div
+        className={`         
+        h-fit-content flex flex-col justify-between gap-6 
+      `}
+      >
+        <Card className="">
+          <CurrentExample />
+        </Card>
+      </div>
     </main>
   );
 };

@@ -6,9 +6,9 @@ export type CurrentExampleProps = {};
 export const CurrentExample: React.FC<CurrentExampleProps> = () => {
   const [{ name: exampleName }] = useSelectedExample();
 
-  if (exampleName === "text-diff") {
-    return <TextDiffExample />;
+  if (exampleName === "images") {
+    return <ImagesExample />;
   }
 
-  return <ImagesExample />;
+  return <TextDiffExample />;
 };
