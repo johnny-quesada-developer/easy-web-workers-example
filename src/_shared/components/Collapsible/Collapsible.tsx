@@ -93,15 +93,15 @@ export const Collapsible = forwardRef<unknown, CollapsibleProps>(
           >
             <div className="">
               {isStringTitle ? (
-                <h3 className="font-bold text-blue-400">{title}</h3>
+                <h3 className="font-bold text-gray-600">{title}</h3>
               ) : (
                 title
               )}
             </div>
 
-            <IoIosArrowUp className="text-blue-400 collapsible-close-arrow" />
+            <IoIosArrowUp className="text-gray-600 collapsible-close-arrow" />
 
-            <IoIosArrowDown className="text-blue-400 collapsible-open-arrow" />
+            <IoIosArrowDown className="text-gray-600 collapsible-open-arrow" />
           </button>
         </summary>
 

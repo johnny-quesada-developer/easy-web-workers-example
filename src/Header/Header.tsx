@@ -12,7 +12,7 @@ export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   return (
     <header
       {...props}
-      className={`${className} h-14 bg-blue-400 flex items-center justify-start px-6 gap-3`}
+      className={`${className} h-14 bg-gray-700 flex items-center justify-start px-6 gap-3`}
     >
       <button
         title="Close menu"
@@ -34,8 +34,9 @@ export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         <GiHamburgerMenu color="white" />
       </button>
 
-      <h1 className="text-white ">
-        Welcome to the <strong>EasyWebWorker</strong>!
+      <h1 className="text-white font-bold">
+        Welcome to the{" "}
+        <strong className=" font-extrabold">EasyWebWorker</strong>!
       </h1>
     </header>
   );

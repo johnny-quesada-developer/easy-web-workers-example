@@ -42,7 +42,7 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
   const options = useMemo(() => {
     return (
-      <ul className={`flex flex-col gap-6 w-full`}>
+      <ul className={`flex flex-col gap-6 w-full `}>
         {[
           {
             key: "intro",

@@ -8,7 +8,7 @@ export const ImagesExampleSummary = () => {
 
   return (
     <Collapsible title="Resize Images" isOpen={isSelected}>
-      <div className="text-left text-gray-700 ">
+      <div className="text-left text-gray-600 ">
         <ul className="list-none">
           <li className="my-2">
             <strong>Improved Performance:</strong> Utilizing Web Workers for
@@ -46,8 +46,8 @@ export const ImagesExampleSummary = () => {
       <div className="flex justify-end">
         <Button
           className={`${
-            isSelected ? "bg-gray-300" : "bg-blue-400"
-          } text-white px-4 py-1 rounded-sm mt-3`}
+            isSelected ? "bg-stone-400" : "bg-gray-700"
+          } text-white px-4 py-1 rounded-sm mt-3  w-24`}
           onClick={() => setSelection({ name: exampleName })}
         >
           {isSelected ? "Selected" : "Select"}

@@ -61,7 +61,7 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         <strong className="text-black">EasyWebWorker</strong>
       </h3>
 
-      <p className="text-gray-700 text-justify pt-3">
+      <p className="text-gray-600 text-justify pt-3">
         Please add to different inputs will analyze the differences between them
         and show the result.
       </p>
@@ -69,34 +69,34 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       <form ref={formRef}>
         <fieldset className="text-diff-example-inputs-grid mt-3 grid grid-cols-2 gap-3">
           <label
-            className="text-gray-700 border-b border-gray-200 pb-2 text-sm font-semibold"
+            className="text-gray-600 border-b border-gray-200 pb-2 text-sm font-semibold"
             htmlFor="input1"
           >
             Input 1
           </label>
 
           <label
-            className="text-gray-700 border-b border-gray-200 pb-2 text-sm font-semibold"
+            className="text-gray-600 border-b border-gray-200 pb-2 text-sm font-semibold"
             htmlFor="input2"
           >
             Input 2
           </label>
 
           <textarea
-            className="border border-gray-200 rounded-sm p-2 bg-blue-50"
+            className="border border-gray-200 rounded-sm p-2 bg-indigo-25"
             name="input1"
             rows={10}
           />
 
           <textarea
-            className="border border-gray-200 rounded-sm p-2 bg-blue-50"
+            className="border border-gray-200 rounded-sm p-2 bg-indigo-25"
             name="input2"
             rows={10}
           />
 
           <div className="flex justify-end col-span-2">
             <Button
-              className="bg-blue-400 text-white px-4 py-1 rounded-sm mt-3"
+              className="bg-gray-700 text-white px-4 py-1 rounded-sm mt-3"
               onClick={compare}
             >
               Compare
@@ -105,7 +105,7 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         </fieldset>
 
         <div
-          className="text-diff-example-result mt-6 text-gray-700 text-justify border border-gray-200 p-3"
+          className="text-diff-example-result mt-6 text-gray-600 text-justify border border-gray-200 p-3 bg-indigo-25"
           dangerouslySetInnerHTML={{
             __html:
               result ||

@@ -50,6 +50,10 @@ export default {
         "collapse-to-top": "collapse-to-top 0.5s ease-in",
         "expand-from-top": "expand-from-top 0.5s ease-out",
       },
+      backgroundColor: {
+        "rose-25": "rgba(255, 99, 71, 0.01)",
+        "indigo-25": "rgba(75, 0, 130, 0.01)",
+      },
     },
   },
   plugins: [],

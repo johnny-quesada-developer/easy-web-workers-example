@@ -106,7 +106,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         <strong className="text-black">EasyWebWorker</strong>
       </h3>
 
-      <div className="text-gray-700 text-justify pt-3">
+      <div className="text-gray-600 text-justify pt-3">
         Please add the image you want to process:
       </div>
 
@@ -120,15 +120,15 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         >
           <div>
             <label
-              className="block text-gray-700 border-b border-gray-200 pb-2 text-sm font-semibold"
+              className="block text-gray-600 border-b border-gray-200 pb-2 text-sm font-semibold"
               htmlFor="scalePercentage"
             >
               Scale Percentage
             </label>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 border border-gray-300 p-1 my-3 pl-2">
               <input
-                className="border-gray-200 rounded-sm p-2 h-8 my-3 w-24"
+                className="rounded-sm h-8 w-36  "
                 type="number"
                 name="scalePercentage"
                 value={scalePercentage}
@@ -146,7 +146,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
               />
 
               <Button
-                className="bg-blue-400 text-white px-4 py-1 rounded-sm"
+                className="bg-gray-700 text-white px-4 py-1 rounded-sm"
                 onClick={() => {
                   setScalePercentage((prev) => {
                     const value = prev + 1;
@@ -161,7 +161,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
               </Button>
 
               <Button
-                className="bg-blue-400 text-white px-4 py-1 rounded-sm"
+                className="bg-gray-700 text-white px-4 py-1 rounded-sm"
                 onClick={() => {
                   setScalePercentage((prev) => {
                     const value = prev - 1;
@@ -180,14 +180,26 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
               )}
             </div>
 
-            <input
-              className="block border border-gray-200 rounded-sm p-2 my-3"
-              type="file"
-              name="input1"
-              id="input1"
-              accept="image/*"
-              onChange={loadSourceImage}
-            />
+            <div className="relative border border-gray-300 p-1">
+              <input
+                type="file"
+                className="absolute w-0 h-0 opacity-0"
+                id="fileUpload"
+                name="fileUpload"
+                onChange={loadSourceImage}
+              />
+
+              <label
+                htmlFor="fileUpload"
+                className="cursor-pointer inline-block bg-gray-700 text-white py-1 px-4 rounded hover:bg-rose-500 transition-all duration-300"
+              >
+                {result ? "Change Image" : "Upload Image"}
+              </label>
+
+              <span className="ml-6 text-gray-500">
+                {result ? result.name : ""}
+              </span>
+            </div>
 
             <p className="flex flex-col gap-1 text-sm text-gray-500 mt-3">
               <span>
@@ -202,7 +214,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
             {!!result && (
               <Button
-                className="bg-blue-400 text-white px-4 py-1 rounded-sm mt-3"
+                className="bg-gray-700 text-white px-4 py-1 rounded-sm mt-3"
                 onClick={() => {
                   const a = document.createElement("a");
 
@@ -218,7 +230,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
             )}
           </div>
 
-          <div className="mt-3 p-6 border-2 border-dashed border-gray-300 flex justify-center">
+          <div className="mt-3 p-6 border-2 border-dashed bg-rose-25 border-gray-300 flex justify-center">
             <img ref={imageRef} id="imageResult" className="" />
           </div>
         </div>

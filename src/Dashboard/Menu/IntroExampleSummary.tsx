@@ -19,7 +19,7 @@ export const IntroExampleSummary: React.FC<
   return (
     <Collapsible ref={collapseRef} title="Introduction" isOpen={isSelected}>
       <article className={`${className} mt-3`} {...props}>
-        <p className="text-gray-700 text-justify">
+        <p className="text-gray-600 text-justify">
           <strong>EasyWebWorker</strong> Is a lightweight and easy-to-use
           library for creating web workers in JavaScript applications. With Easy
           Web Worker, you can move computationally expensive tasks and logic off
@@ -33,8 +33,8 @@ export const IntroExampleSummary: React.FC<
       <div className="flex justify-end">
         <Button
           className={`${
-            isSelected ? "bg-gray-300" : "bg-blue-400"
-          } text-white px-4 py-1 rounded-sm mt-3`}
+            isSelected ? "bg-stone-400" : "bg-gray-700"
+          } text-white px-4 py-1 rounded-sm mt-3 w-24`}
           onClick={() => setSelection({ name: exampleName })}
         >
           {isSelected ? "Selected" : "Select"}
