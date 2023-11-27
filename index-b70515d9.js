@@ -22869,9 +22869,7 @@ worker
       ],
     })
   );
-J1(() => Promise.resolve({}), ['./prism-tomorrow-2683877b.css']).then(() => {
-  Zg.theme = 'prism-tomorrow';
-});
+
 ac.createRoot(document.getElementById('root')).render(
   Q.jsx(ir.StrictMode, {
     children: Q.jsxs('div', {
