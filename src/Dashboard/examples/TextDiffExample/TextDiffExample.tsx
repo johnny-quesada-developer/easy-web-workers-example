@@ -112,6 +112,59 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
               `<span class="text-gray-400">awaiting for results...</span>`,
           }}
         ></div>
+
+        <p className="text-gray-600 animate-fade-in mt-3">
+          For this example we are using an Static Easy Web Worker.. Which is
+          composed by separate file instead of the function template.
+        </p>
+
+        <p className="text-gray-600 animate-fade-in mt-3">
+          Creating is also simple as with the function template, take a look at
+          the code below:
+        </p>
+
+        <pre className="text-gray-600 animate-fade-in mt-3">
+          <code className="language-js">
+            {`// worker.ts Instead of using the function template, we just create a new instance of StaticEasyWebWorker into our worker file
+const easyWorker = new StaticEasyWebWorker();
+
+// by using th eapi of the static worker we can keep the same cancelable promise pattern into our worker API
+easyWorker.onMessage<DiffLibExampleComparePayload, string>(
+  "compare",
+  (message) => {
+    const { input1, input2 } = message.payload;
+
+    const textDiff = new TextDiff();
+
+    // HEAVY OPERATION
+    const diff = textDiff.main(input1, input2);
+    
+    const diffDisplay = textDiff.prettyHtml(diff);
+
+    message.resolve(diffDisplay);
+  }
+);
+`}
+          </code>
+        </pre>
+
+        <p className="text-gray-600 animate-fade-in mt-3">
+          Consuming our worker then is a very easy task:
+        </p>
+
+        <pre className="text-gray-600 animate-fade-in mt-3">
+          <code className="language-js">
+            {`const result = await easyWebWorker.sendToMethod<
+      string, //Result type
+      { input1: string; input2: string } // Payload type
+>("compare", {
+      input1,
+      input2,
+});
+      
+setResult(result);`}
+          </code>
+        </pre>
       </form>
     </div>
   );

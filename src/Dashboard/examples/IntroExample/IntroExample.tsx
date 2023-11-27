@@ -93,10 +93,6 @@ export const IntroExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     });
   };
 
-  useEffect(() => {
-    prismjs.highlightAll();
-  }, []);
-
   return (
     <div className={`${className} flex flex-col gap-6`} {...props}>
       <h3 className="font-bold text-gray-600 border-b border-gray-200 pb-2">

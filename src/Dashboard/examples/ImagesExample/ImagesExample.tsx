@@ -42,7 +42,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     const scaledFile = await easyWebWorker.sendToMethod<
       File,
       ImageExamplePayload
-    >("process", {
+    >("resize", {
       file,
       scalePercentage,
     });
@@ -107,7 +107,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       </h3>
 
       <div className="text-gray-600 text-justify pt-3">
-        Please add the image you want to process:
+        Please add the image you want to resize:
       </div>
 
       <div className="text-diff-example-inputs-grid mt-3 grid grid-cols-1 gap-3">
@@ -230,11 +230,37 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
             )}
           </div>
 
-          <div className="mt-3 p-6 border-2 border-dashed bg-rose-25 border-gray-300 flex justify-center">
+          <div className="mt-3 p-6 border-2 border-dashed bg-indigo-25 border-gray-300 flex justify-center">
             <img ref={imageRef} id="imageResult" className="" />
           </div>
         </div>
       </div>
+
+      <p className="text-gray-600 text-justify pt-3">
+        For resizing the image we are using an static EasyWebWorker instance,
+        let's see the code:
+      </p>
+
+      <pre>
+        <code className="language-javascript">{`  
+  // Notice that all the heavy computation is done in the worker
+  const scaledFile = await easyWebWorker.sendToMethod<
+    File,
+    ImageExamplePayload
+  >("resize", {
+    file,
+    scalePercentage,
+  });
+
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    imageRef.current.src = event.target.result;
+  };
+
+  reader.readAsDataURL(scaledFile);
+`}</code>
+      </pre>
     </div>
   );
 };

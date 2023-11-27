@@ -1,3 +1,4 @@
+import prismjs from "prismjs";
 import React, { useEffect } from "react";
 import { Card } from "../_shared/components";
 import { CurrentExample } from "./CurrentExample";
@@ -23,6 +24,8 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     };
 
     window.addEventListener("resize", handler);
+
+    prismjs.highlightAll();
 
     return () => {
       window.removeEventListener("resize", handler);

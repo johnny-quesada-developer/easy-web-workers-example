@@ -14,7 +14,7 @@ cv.onRuntimeInitialized = () => {
   callbacks.forEach((callback) => callback());
 };
 
-const invertImageColors = async ({
+const resizeImage = async ({
   scalePercentage,
   file,
 }: ImageExamplePayload): Promise<File> => {
@@ -75,18 +75,18 @@ const invertImageColors = async ({
   });
 };
 
-worker.onMessage<ImageExamplePayload, File>("process", (message) => {
-  const invertColors = async () => {
-    const negativeVersion = await invertImageColors(message.payload);
+worker.onMessage<ImageExamplePayload, File>("resize", (message) => {
+  const processImage = async () => {
+    const negativeVersion = await resizeImage(message.payload);
 
     message.resolve(negativeVersion);
   };
 
   if (!isCVReady) {
-    callbacks.push(invertColors);
+    callbacks.push(processImage);
 
     return;
   }
 
-  invertColors();
+  processImage();
 });
