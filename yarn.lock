@@ -588,7 +588,7 @@ jiti@^1.19.1:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-json-storage-formatter@^1.0.8:
+json-storage-formatter@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/json-storage-formatter/-/json-storage-formatter-1.0.9.tgz#600e4771673d017a3cab03f2ab4d6ea60cc6abea"
   integrity sha512-Z2aqXz2WCiAY/FLVbcNrDHjFFBrED3BDL9ZQD3fRnKP0BUfuXAjeln5jWEXRJY7Sanj/wSoSpJU6iufdiqhBVw==
@@ -794,24 +794,24 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-global-state-hooks@^2.0.11:
-  version "2.0.15"
-  resolved "https://registry.yarnpkg.com/react-global-state-hooks/-/react-global-state-hooks-2.0.15.tgz#c58e405aecbc1dd748b348139a2b76b2d7d7d86b"
-  integrity sha512-R79pKkASZJQQsIjMlagJg50KuHsNHveejPgJZRjyVevwycSbto3Aicod1Bn9+f1W4dNMbYavNdLKFm+/+dFMKA==
+react-global-state-hooks@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-global-state-hooks/-/react-global-state-hooks-3.0.5.tgz#4682d3e9514a04cd1a4552528abb92c30784b943"
+  integrity sha512-/+ekDMAv3UBGXPyCbHfG/HCdHuTOydtX4Yt4pc/wvda69nHp81l8YyFVKDRGSNIsyfrg7JjmBZ3dj1oHd3T9lw==
   dependencies:
-    react-native-global-state-hooks "^5.0.15"
+    react-hooks-global-states "^1.0.4"
+
+react-hooks-global-states@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-hooks-global-states/-/react-hooks-global-states-1.0.4.tgz#6a368262421cc9d1b5509e9d3f9c62188c12230d"
+  integrity sha512-PFy8PRaP93wYyG5Bqdn3AwJHmB8Z4NHMDbvtZHMouXdoR2yjJ8QF4rNK0THIaOoIdmHNexUCzxqOVjv+OUyIuQ==
+  dependencies:
+    json-storage-formatter "^1.0.9"
 
 react-icons@^4.8.0:
   version "4.12.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.12.0.tgz#54806159a966961bfd5cdb26e492f4dafd6a8d78"
   integrity sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==
-
-react-native-global-state-hooks@^5.0.15:
-  version "5.0.15"
-  resolved "https://registry.yarnpkg.com/react-native-global-state-hooks/-/react-native-global-state-hooks-5.0.15.tgz#7fd8edf5f92104913fd5d8872ea5b40b1f02c7dc"
-  integrity sha512-Ilu1RYPwmCfPwPjnS3/40IILB5VNEXVAAn4Proj6hdCTA6UF9/ge6+DfP+9ybZIKtFNlm2QB+F0PKLV3BI2WcQ==
-  dependencies:
-    json-storage-formatter "^1.0.8"
 
 react@^18.2.0:
   version "18.2.0"

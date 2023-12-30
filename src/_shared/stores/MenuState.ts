@@ -11,7 +11,7 @@ const initialState: MenuState = {
   isMenuOpen: true,
 };
 
-export const [useMenuState, getMenuState, menuStateActions] =
+export const [useMenuState, getMenuState, menu] =
   createGlobalStateWithDecoupledFuncs(initialState, {
     actions: {
       open() {
@@ -26,4 +26,7 @@ export const [useMenuState, getMenuState, menuStateActions] =
         };
       },
     } as const,
+    localStorage: {
+      key: "app-menu",
+    },
   });

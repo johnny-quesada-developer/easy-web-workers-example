@@ -2,7 +2,7 @@ import { Collapsible, Button, useSelectedExample } from "@shared";
 
 export const DiffLibExampleSummary = () => {
   const exampleName = "text-diff";
-  const [isSelected, setSelection] = useSelectedExample(
+  const [isSelected, actions] = useSelectedExample(
     (state) => state.name === exampleName
   );
 
@@ -24,7 +24,7 @@ export const DiffLibExampleSummary = () => {
           className={`${
             isSelected ? "bg-stone-400" : "bg-gray-700"
           } text-white px-4 py-1 rounded-sm mt-3  w-24`}
-          onClick={() => setSelection({ name: exampleName })}
+          onClick={() => actions.setCurrent(exampleName)}
         >
           {isSelected ? "Selected" : "Select"}
         </Button>

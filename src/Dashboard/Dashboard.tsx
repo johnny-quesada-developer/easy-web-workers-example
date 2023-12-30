@@ -1,7 +1,6 @@
-import prismjs from "prismjs";
 import React, { useEffect } from "react";
 import { CurrentExample } from "./CurrentExample";
-import { Card, menuStateActions } from "@shared";
+import { Card, menu, theme } from "@shared";
 import { Menu } from "./Menu/Menu";
 
 export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({
@@ -14,17 +13,17 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       const minWidth = 768;
 
       if (window.innerWidth >= minWidth) {
-        menuStateActions.open();
+        menu.open();
 
         return;
       }
 
-      menuStateActions.close();
+      menu.close();
     };
 
     window.addEventListener("resize", handler);
 
-    prismjs.highlightAll();
+    theme.highlight();
 
     return () => {
       window.removeEventListener("resize", handler);
@@ -42,11 +41,11 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         ...style,
       }}
     >
-      <Menu />
+      <Menu className="" />
 
       <div
         className={`         
-        h-fit-content flex flex-col justify-between gap-6 
+        overflow-auto flex flex-col justify-between gap-6 
       `}
       >
         <Card className="">

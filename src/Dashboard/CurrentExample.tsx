@@ -11,14 +11,22 @@ export const CurrentExample: React.FC<CurrentExampleProps> = React.memo(() => {
   return (
     <div>
       <ImagesExample
-        className={`${exampleName === "images" ? "" : "hidden"}`}
+        className={`${
+          exampleName === "images" ? "" : "hidden"
+        } animate-fade-in`}
       />
 
       <TextDiffExample
-        className={`${exampleName === "text-diff" ? "" : "hidden"}`}
+        className={`${
+          exampleName === "text-diff" ? "" : "hidden"
+        }  animate-fade-in`}
       />
 
-      <IntroExample className={`${exampleName === "intro" ? "" : "hidden"}`} />
+      <IntroExample
+        className={`${
+          exampleName === "intro" ? "" : "hidden"
+        }  animate-fade-in`}
+      />
     </div>
   );
 });

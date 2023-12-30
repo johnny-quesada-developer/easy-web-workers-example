@@ -113,17 +113,17 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
           }}
         ></div>
 
-        <p className="text-gray-600 animate-fade-in mt-3">
+        <p className="text-gray-600 mt-3">
           For this example we are using an Static Easy Web Worker.. Which is
           composed by separate file instead of the function template.
         </p>
 
-        <p className="text-gray-600 animate-fade-in mt-3">
+        <p className="text-gray-600 mt-3">
           Creating is also simple as with the function template, take a look at
           the code below:
         </p>
 
-        <pre className="text-gray-600 animate-fade-in mt-3">
+        <pre className="text-gray-600 mt-3">
           <code className="language-js">
             {`// worker.ts Instead of using the function template, we just create a new instance of StaticEasyWebWorker into our worker file
 const easyWorker = new StaticEasyWebWorker();
@@ -148,11 +148,11 @@ easyWorker.onMessage<DiffLibExampleComparePayload, string>(
           </code>
         </pre>
 
-        <p className="text-gray-600 animate-fade-in mt-3">
+        <p className="text-gray-600 mt-3">
           Consuming our worker then is a very easy task:
         </p>
 
-        <pre className="text-gray-600 animate-fade-in mt-3">
+        <pre className="text-gray-600 mt-3">
           <code className="language-js">
             {`const result = await easyWebWorker.sendToMethod<
       string, //Result type
