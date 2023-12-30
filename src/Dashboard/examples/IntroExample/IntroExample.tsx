@@ -1,57 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
-import { Button } from "../../../_shared";
-import prismjs from "prismjs";
+import { Button } from "@shared";
 
 type IntroExamplePayload = {
   shouldDisplayLogs?: boolean;
 };
-
-/**
- * For more simple web workers we don't need use an external file
- * we can just use a function as a worker template,
- *
- * also notice that you can also create more complex APIs in the worker with specific methods
- */
-const worker = new EasyWebWorker<IntroExamplePayload>((easyWorker) => {
-  let intervalId: NodeJS.Timeout;
-  let count = 0;
-
-  const workerState = {
-    isRunning: false,
-    shouldDisplayLogs: false,
-  };
-
-  easyWorker.onMessage("start", (message) => {
-    intervalId = setInterval(() => {
-      count = count >= 100 ? 0 : count + 0.4;
-
-      if (workerState.shouldDisplayLogs) {
-        console.log(`progress inside worker: ${count}%`);
-      }
-
-      message.reportProgress(count);
-    }, 10);
-  });
-
-  easyWorker.onMessage<IntroExamplePayload>("updateState", (message) => {
-    const {
-      payload: { shouldDisplayLogs },
-    } = message;
-
-    Object.assign(workerState, {
-      shouldDisplayLogs,
-    });
-
-    message.resolve();
-  });
-
-  easyWorker.onMessage("pause", (message) => {
-    clearInterval(intervalId);
-
-    message.resolve();
-  });
-});
 
 export const IntroExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
@@ -62,17 +15,71 @@ export const IntroExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   const [shouldDisplayLogs, setShouldDisplayLogs] = useState(false);
   const [executedFirstTime, setExecutedFirstTime] = useState(false);
 
+  const workerRef = useRef<EasyWebWorker<IntroExamplePayload>>(null);
+
+  useEffect(() => {
+    /**
+     * For more simple web workers we don't need use an external file
+     * we can just use a function as a worker template,
+     *
+     * also notice that you can also create more complex APIs in the worker with specific methods
+     */
+    workerRef.current = new EasyWebWorker<IntroExamplePayload>((easyWorker) => {
+      let intervalId: NodeJS.Timeout;
+      let count = 0;
+
+      const workerState = {
+        isRunning: false,
+        shouldDisplayLogs: false,
+      };
+
+      easyWorker.onMessage("start", (message) => {
+        intervalId = setInterval(() => {
+          count = count >= 100 ? 0 : count + 0.4;
+
+          if (workerState.shouldDisplayLogs) {
+            console.log(`progress inside worker: ${count}%`);
+          }
+
+          message.reportProgress(count);
+        }, 10);
+      });
+
+      easyWorker.onMessage<IntroExamplePayload>("updateState", (message) => {
+        const {
+          payload: { shouldDisplayLogs },
+        } = message;
+
+        Object.assign(workerState, {
+          shouldDisplayLogs,
+        });
+
+        message.resolve();
+      });
+
+      easyWorker.onMessage("pause", (message) => {
+        clearInterval(intervalId);
+
+        message.resolve();
+      });
+    });
+
+    return () => {
+      workerRef.current?.dispose();
+    };
+  }, []);
+
   const toggleWorkerRunning = () => {
     setWorkerState(!isWorkerRunning);
     setExecutedFirstTime(true);
 
     if (isWorkerRunning) {
-      worker.sendToMethod("pause");
+      workerRef.current.sendToMethod("pause");
 
       return;
     }
 
-    worker
+    workerRef.current
       .sendToMethod("start")
       .onProgress((progress) => {
         progressBarRef.current.style.width = `${progress}%`;
@@ -88,7 +95,7 @@ export const IntroExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   const toggleWorkerLogs = () => {
     setShouldDisplayLogs(!shouldDisplayLogs);
 
-    worker.sendToMethod("updateState", {
+    workerRef.current.sendToMethod("updateState", {
       shouldDisplayLogs: !shouldDisplayLogs,
     });
   };

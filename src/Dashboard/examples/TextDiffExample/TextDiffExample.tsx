@@ -1,5 +1,5 @@
 import "./TextDiffExample.scss";
-import { Button } from "../../../_shared";
+import { Button } from "@shared";
 import { useCallback, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { DiffLibExampleComparePayload } from "./TextDiffExample.types";

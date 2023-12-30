@@ -2,7 +2,7 @@ import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { ImageExamplePayload } from "./ImagesExample.types";
 import workerScript from "./ImagesExample.worker?worker&url";
-import { Button } from "../../../_shared/";
+import { Button } from "@shared";
 
 // with vite we create the worker in different ways depending on if we are in production or development
 const easyWebWorker = (() => {
@@ -13,6 +13,7 @@ const easyWebWorker = (() => {
   }
 
   const workerUrl = new URL("./ImagesExample.worker.ts", import.meta.url);
+
   const worker = new Worker(workerUrl, {
     type: "module",
   });

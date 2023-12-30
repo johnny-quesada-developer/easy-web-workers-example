@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import {
   Button,
   Collapsible,
   CollapsibleRef,
   useSelectedExample,
-} from "../../_shared";
+} from "@shared";
 
 export const IntroExampleSummary: React.FC<
   React.HTMLAttributes<HTMLElement>

@@ -1,8 +1,7 @@
 import prismjs from "prismjs";
 import React, { useEffect } from "react";
-import { Card } from "../_shared/components";
 import { CurrentExample } from "./CurrentExample";
-import { menuStateActions } from "../_shared";
+import { Card, menuStateActions } from "@shared";
 import { Menu } from "./Menu/Menu";
 
 export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({

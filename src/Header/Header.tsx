@@ -1,7 +1,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosArrowBack } from "react-icons/io";
 
-import { useMenuState } from "../_shared";
+import { useMenuState } from "@shared";
 
 export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,

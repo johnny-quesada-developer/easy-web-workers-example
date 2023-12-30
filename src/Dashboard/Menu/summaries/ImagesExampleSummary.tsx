@@ -1,4 +1,4 @@
-import { Collapsible, Button, useSelectedExample } from "../../_shared";
+import { Collapsible, Button, useSelectedExample } from "@shared";
 
 export const ImagesExampleSummary = () => {
   const exampleName = "images";

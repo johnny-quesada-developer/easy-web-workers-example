@@ -1,7 +1,7 @@
-import { useSelectedExample } from "../_shared";
+import { useSelectedExample } from "@shared";
 import { ImagesExample, TextDiffExample } from "./examples";
 import React from "react";
-import { IntroExample } from "./examples/IntroExample";
+import { IntroExample } from "@src/Dashboard/examples";
 
 export type CurrentExampleProps = {};
 

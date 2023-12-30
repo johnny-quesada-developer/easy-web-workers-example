@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef } from "react";
-import { MenuState, getMenuState, useMenuState } from "../../_shared";
-import { IntroExampleSummary } from "./IntroExampleSummary";
-import { Card } from "../../_shared/components";
-import { DiffLibExampleSummary } from "./DiffLibExampleSummary";
-import { ImagesExampleSummary } from "./ImagesExampleSummary";
+import { MenuState, getMenuState, useMenuState, Card } from "@shared";
+import {
+  IntroExampleSummary,
+  DiffLibExampleSummary,
+  ImagesExampleSummary,
+} from "./summaries";
 
 export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
