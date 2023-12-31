@@ -36,6 +36,10 @@ export const useSelectedExample = createGlobalState(initialState, {
 
     if (selectedExample) return;
 
-    window.history.pushState({}, "", `/?example=intro`);
+    const baseUrl = window.location.href.includes("?")
+      ? window.location.href.split("?")[0]
+      : window.location.href;
+
+    window.history.pushState({}, "", `${baseUrl}?example=intro`);
   },
 });
