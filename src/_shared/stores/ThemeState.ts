@@ -1,9 +1,9 @@
 import prismjs from "prismjs";
-import { createGlobalStateWithDecoupledFuncs } from "react-global-state-hooks";
 import {
+  createGlobalStateWithDecoupledFuncs,
   StateConfigCallbackParam,
   StoreTools,
-} from "react-hooks-global-states";
+} from "react-global-state-hooks";
 
 import prismTomorrowUrl from "prismjs/themes/prism-tomorrow.css?url";
 import prismUrl from "prismjs/themes/prism.css?url";
@@ -55,9 +55,7 @@ export const [useTheme, getTheme, themeState] =
     localStorage: {
       key: "app-theme",
     },
-    onInit: async ({
-      getState,
-    }: StateConfigCallbackParam<ThemeState, null, null>) => {
+    onInit: async ({ getState }: StateConfigCallbackParam<ThemeState>) => {
       const value = getState();
 
       document.documentElement.classList.add(
