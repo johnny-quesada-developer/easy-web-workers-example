@@ -408,10 +408,10 @@ dlv@^1.1.3:
   resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
   integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
 
-easy-web-worker@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/easy-web-worker/-/easy-web-worker-2.0.2.tgz#0480a2a1facd2391177bf8c7e401b48178761a8f"
-  integrity sha512-EyljQ2KGatIAIqAlUCNGtmRgmwbguZyIerSKCiOjLhQNvMTjLtsRyLw8GpnHr09oelgJgzdIyIYlDeH0IsODpA==
+easy-web-worker@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/easy-web-worker/-/easy-web-worker-3.0.0.tgz#ecb9a667768205c83e5d0529736a86195e65937f"
+  integrity sha512-9qMw7Yz0dOXUTAx8Yzia7bnOVpW5rdD9sKYRhA0RWP5tuGNN/BZp1b8mDx0W7ZtERsxM3J2xbXxM/vAB10+GCw==
 
 electron-to-chromium@^1.4.535:
   version "1.4.593"
