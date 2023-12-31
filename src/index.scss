@@ -12,31 +12,16 @@
   font-family: "georgia", serif;
 }
 
-/* Mixin for md screens */
-@mixin md() {
-  @media (min-width: 768px) {
-    @content;
-  }
-}
-
-/* Mixin for lg screens */
-@mixin lg() {
-  @media (min-width: 1024px) {
-    @content;
-  }
-}
-
-.dashboard {
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-}
-
-@include md() {
-  .dashboard {
-    grid-template-columns: auto minmax(400px, 1fr);
-  }
-}
-
 strong {
   font-size: 1rem;
+}
+
+body,
+html,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  scroll-behavior: smooth;
 }

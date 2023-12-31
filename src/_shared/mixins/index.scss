@@ -1,0 +1,13 @@
+/* Mixin for md screens */
+@mixin md() {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+/* Mixin for lg screens */
+@mixin lg() {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}

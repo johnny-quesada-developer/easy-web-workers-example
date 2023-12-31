@@ -24,7 +24,7 @@ export const ThemeButton: React.FC<
       ].join(" ")}
     >
       <span>
-        {theme === "light" ? (
+        {theme === "prism-tomorrow" ? (
           <FaLightbulb className=" animate-fadeIn" fontSize={20} />
         ) : (
           <FaRegLightbulb className=" animate-fadeIn" fontSize={20} />

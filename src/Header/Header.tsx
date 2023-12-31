@@ -7,7 +7,7 @@ export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
   ...props
 }) => {
-  const [{ isMenuOpen }, actions] = useMenuState();
+  const [isMenuOpen, actions] = useMenuState(({ isMenuOpen }) => isMenuOpen);
 
   return (
     <header

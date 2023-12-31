@@ -18,18 +18,19 @@ const loadTheme = (async (value: string) => {
   value: string
 ) => Promise<void> & { isLoaded: boolean; promise: Promise<void> };
 
-export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
-  "prism-tomorrow",
-  {
+export type ThemeState = "prism-tomorrow" | "prism";
+
+export const [useTheme, getTheme, themeState] =
+  createGlobalStateWithDecoupledFuncs("prism-tomorrow" as ThemeState, {
     localStorage: {
       key: "app-theme",
     },
     onInit: async ({
       getState,
-    }: StateConfigCallbackParam<string, null, null>) => {
+    }: StateConfigCallbackParam<ThemeState, null, null>) => {
       const value = getState();
 
-      document.body.classList.add(
+      document.documentElement.classList.add(
         value === "prism-tomorrow" ? "dark" : "light"
       );
 
@@ -37,14 +38,14 @@ export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
     },
     actions: {
       highlight: () => {
-        return async ({ getState }: StoreTools<string>) => {
+        return async ({ getState }: StoreTools<ThemeState>) => {
           await loadTheme(getState());
 
           prismjs.highlightAll();
         };
       },
       toggle: () => {
-        return ({ setState }: StoreTools<string>) => {
+        return ({ setState }: StoreTools) => {
           setState((state) =>
             state === "prism-tomorrow" ? "prism" : "prism-tomorrow"
           );
@@ -52,6 +53,5 @@ export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
           window.location.reload();
         };
       },
-    },
-  }
-);
+    } as const,
+  });

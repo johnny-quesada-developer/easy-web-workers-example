@@ -1,29 +1,25 @@
 import React, { useEffect } from "react";
 import { CurrentExample } from "./CurrentExample";
-import { Card, menu, theme } from "@shared";
-import { Menu } from "./Menu/Menu";
+import { Card, menuState, themeState, MIN_WITH_FOR_TWO_COLUMNS } from "@shared";
+import { ThemeButton } from "./ThemeButton";
+import { Header } from "@src/Header";
+import { Menu } from "./Menu";
 
-export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({
-  className,
-  style,
-  ...props
-}) => {
+export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = () => {
   useEffect(() => {
     const handler = () => {
-      const minWidth = 768;
-
-      if (window.innerWidth >= minWidth) {
-        menu.open();
+      if (window.innerWidth >= MIN_WITH_FOR_TWO_COLUMNS) {
+        menuState.open();
 
         return;
       }
 
-      menu.close();
+      menuState.close();
     };
 
     window.addEventListener("resize", handler);
 
-    theme.highlight();
+    themeState.highlight();
 
     return () => {
       window.removeEventListener("resize", handler);
@@ -31,27 +27,20 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   }, []);
 
   return (
-    <main
-      {...props}
-      className={`
-      ${className} 
-      
-      dashboard p-6 grid`}
-      style={{
-        ...style,
-      }}
-    >
-      <Menu className="" />
+    <>
+      <Header className="fixed top-0 w-full z-10" />
 
-      <div
-        className={`         
-        overflow-auto flex flex-col justify-between gap-6 
-      `}
-      >
-        <Card className="">
-          <CurrentExample />
-        </Card>
+      <ThemeButton className="fixed top-16 right-6 z-20" />
+
+      <div className="mt-14 bg-stone-200 dark:bg-black font-serif leading-6 flex flex-col md:flex-row lg:flex-row p-6 max-w-full">
+        <Menu className="" />
+
+        <main className="flex-1 max-w-full">
+          <Card className="">
+            <CurrentExample />
+          </Card>
+        </main>
       </div>
-    </main>
+    </>
   );
 };

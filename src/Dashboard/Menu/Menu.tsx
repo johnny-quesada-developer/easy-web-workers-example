@@ -1,44 +1,85 @@
 import { useEffect, useMemo, useRef } from "react";
-import { MenuState, getMenuState, useMenuState, Card } from "@shared";
+import {
+  MenuState,
+  getMenuState,
+  useMenuState,
+  Card,
+  menuState,
+} from "@shared";
 import {
   IntroExampleSummary,
   DiffLibExampleSummary,
   ImagesExampleSummary,
 } from "./summaries";
 
+const onMenuStateChange = ({
+  asideRef,
+}: {
+  asideRef: React.MutableRefObject<HTMLElement>;
+}) => {
+  // subscriptions are executed first than the component update
+  const unsubscribe = getMenuState<true>((subscribe) => {
+    subscribe(
+      (menuState: MenuState) => {
+        if (!menuState.isMenuOpen) {
+          // to perform the animation the height must be set
+          asideRef.current.style.height = asideRef.current.clientHeight + "px";
+
+          return;
+        }
+
+        // after the animation the height must be removed
+        setTimeout(() => {
+          asideRef.current.style.height = null;
+        }, 300);
+      },
+      {
+        skipFirst: true,
+      }
+    );
+  });
+
+  return unsubscribe;
+};
+
+const onMenuVisibilityChange = ({
+  asideRef,
+}: {
+  asideRef: React.MutableRefObject<HTMLElement>;
+}) => {
+  const observer = new IntersectionObserver(([menu]) => {
+    menuState.setVisibility(menu.isIntersecting);
+  });
+
+  observer.observe(asideRef.current);
+
+  return () => {
+    observer.unobserve(asideRef.current);
+  };
+};
+
 export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
   style,
   ...props
 }) => {
-  const [{ isMenuOpen }] = useMenuState();
+  const [isMenuOpen] = useMenuState(({ isMenuOpen }) => isMenuOpen);
+
   const asideRef = useRef(null);
 
   useEffect(() => {
-    // subscriptions are executed first than the component update
-    const unsubscribe = getMenuState<true>((subscribe) => {
-      subscribe(
-        (menuState: MenuState) => {
-          if (!menuState.isMenuOpen) {
-            // to perform the animation the height must be set
-            asideRef.current.style.height =
-              asideRef.current.clientHeight + "px";
+    const subscriptions = [
+      onMenuStateChange({
+        asideRef,
+      }),
+      onMenuVisibilityChange({
+        asideRef,
+      }),
+    ];
 
-            return;
-          }
-
-          // after the animation the height must be removed
-          setTimeout(() => {
-            asideRef.current.style.height = null;
-          }, 300);
-        },
-        {
-          skipFirst: true,
-        }
-      );
-    });
-
-    return unsubscribe;
+    return () => {
+      subscriptions.forEach((unsubscribe) => unsubscribe());
+    };
   }, []);
 
   const options = useMemo(() => {
@@ -76,7 +117,7 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       className={`
       ${className} 
       animation-fill-mode-forwards 
-      h-full w-full lg:w-96 mf:w-96      
+      w-full h-fit lg:w-96 mf:w-96      
       flex flex-col gap-6 
       ${
         isMenuOpen
