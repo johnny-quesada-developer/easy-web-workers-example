@@ -1,5 +1,6 @@
 import { StoreTools, createGlobalState } from "react-global-state-hooks";
 import { StateConfigCallbackParam } from "react-hooks-global-states";
+import { MIN_WITH_FOR_TWO_COLUMNS } from "./MenuState";
 
 export type TExample = "text-diff" | "images" | "intro";
 
@@ -21,10 +22,14 @@ export const useSelectedExample = createGlobalState(initialState, {
 
         window.history.pushState({}, "", `${baseUrl}?example=${value}`);
 
-        /**
-         * scroll to top
-         */
-        window.scrollTo(0, 0);
+        const isOneColumn = window.innerWidth < MIN_WITH_FOR_TWO_COLUMNS;
+
+        if (!isOneColumn) {
+          /**
+           * scroll to top
+           */
+          window.scrollTo(0, 0);
+        }
 
         setState((state) => ({ ...state, name: value }));
       };
