@@ -29,15 +29,13 @@ export const useSelectedExample = createGlobalState(initialState, {
   onInit: ({
     setState,
   }: StateConfigCallbackParam<SelectedExample, null, null>) => {
-    const selectedExample = window.location.pathname.replace(
-      "/",
-      ""
-    ) as TExample;
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedExample = urlParams.get("example") as TExample;
 
     setState((state) => ({ ...state, name: selectedExample || "intro" }));
 
     if (selectedExample) return;
 
-    window.history.pushState({}, "", `/intro`);
+    window.history.pushState({}, "", `/?example=intro`);
   },
 });
