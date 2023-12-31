@@ -8,15 +8,45 @@ import {
 import prismTomorrowUrl from "prismjs/themes/prism-tomorrow.css?url";
 import prismUrl from "prismjs/themes/prism.css?url";
 
-const loadTheme = (async (value: string) => {
-  if ((loadTheme as unknown as { isLoaded: boolean }).isLoaded) return;
+const loadTheme = (value: string): Promise<void> => {
+  const source = loadTheme as unknown as {
+    promise: Promise<void>;
+    isLoaded: boolean;
+  };
 
-  await import(value === "prism-tomorrow" ? prismTomorrowUrl : prismUrl);
+  if (source.isLoaded) return Promise.resolve();
+  if (source.promise) return source.promise;
 
-  prismjs.theme = value;
-}) as (
-  value: string
-) => Promise<void> & { isLoaded: boolean; promise: Promise<void> };
+  const mode = import.meta.env.MODE;
+  const themeUrl = value === "prism-tomorrow" ? prismTomorrowUrl : prismUrl;
+
+  if (mode !== "production") {
+    source.promise = import(themeUrl).then(() => {
+      source.isLoaded = true;
+      prismjs.theme = value;
+    });
+
+    return source.promise;
+  }
+
+  source.promise = new Promise(async (resolve) => {
+    const themeCss = await fetch(themeUrl).then((response) => response.text());
+
+    const styleElement = document.createElement("style");
+
+    styleElement.innerHTML = themeCss;
+    document.head.appendChild(styleElement);
+
+    styleElement.onload = () => {
+      source.isLoaded = true;
+      prismjs.theme = value;
+
+      resolve();
+    };
+  });
+
+  return source.promise;
+};
 
 export type ThemeState = "prism-tomorrow" | "prism";
 
