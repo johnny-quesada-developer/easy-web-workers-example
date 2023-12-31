@@ -15,7 +15,11 @@ export const useSelectedExample = createGlobalState(initialState, {
   actions: {
     setCurrent: (value: TExample) => {
       return ({ setState }: StoreTools<SelectedExample>) => {
-        window.history.pushState({}, "", `/${value}`);
+        const baseUrl = window.location.href.includes("?")
+          ? window.location.href.split("?")[0]
+          : window.location.href;
+
+        window.history.pushState({}, "", `${baseUrl}?example=${value}`);
 
         /**
          * scroll to top
