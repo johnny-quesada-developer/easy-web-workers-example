@@ -1,3 +1,4 @@
 export * from "./ImagesExample";
 export * from "./TextDiffExample";
-export * from "./IntroExample";
+export * from "./ProgressBarExample";
+export * from "./ParallelExample";

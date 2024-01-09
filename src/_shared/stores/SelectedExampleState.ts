@@ -2,14 +2,14 @@ import { StoreTools, createGlobalState } from "react-global-state-hooks";
 import { StateConfigCallbackParam } from "react-hooks-global-states";
 import { MIN_WITH_FOR_TWO_COLUMNS } from "./MenuState";
 
-export type TExample = "text-diff" | "images" | "intro";
+export type TExample = "text-diff" | "images" | "progress-bar" | "parallel";
 
 export type SelectedExample = {
   name: TExample;
 };
 
 const initialState: SelectedExample = {
-  name: "intro",
+  name: "parallel",
 };
 
 export const useSelectedExample = createGlobalState(initialState, {
@@ -41,7 +41,7 @@ export const useSelectedExample = createGlobalState(initialState, {
     const urlParams = new URLSearchParams(window.location.search);
     const selectedExample = urlParams.get("example") as TExample;
 
-    setState((state) => ({ ...state, name: selectedExample || "intro" }));
+    setState((state) => ({ ...state, name: selectedExample || "parallel" }));
 
     if (selectedExample) return;
 
@@ -49,6 +49,6 @@ export const useSelectedExample = createGlobalState(initialState, {
       ? window.location.href.split("?")[0]
       : window.location.href;
 
-    window.history.pushState({}, "", `${baseUrl}?example=intro`);
+    window.history.pushState({}, "", `${baseUrl}?example=parallel`);
   },
 });

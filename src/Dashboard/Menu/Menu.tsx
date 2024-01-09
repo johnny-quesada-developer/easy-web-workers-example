@@ -7,9 +7,10 @@ import {
   menuState,
 } from "@shared";
 import {
-  IntroExampleSummary,
+  ProgressBarExampleSummary,
   DiffLibExampleSummary,
   ImagesExampleSummary,
+  ParallelExampleSummary,
 } from "./summaries";
 
 const onMenuStateChange = ({
@@ -87,8 +88,12 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       <ul className={`flex flex-col gap-6`}>
         {[
           {
-            key: "intro",
-            component: <IntroExampleSummary />,
+            key: "parallel",
+            component: <ParallelExampleSummary />,
+          },
+          {
+            key: "progress-bar",
+            component: <ProgressBarExampleSummary />,
           },
           {
             key: "diff-lib",

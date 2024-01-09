@@ -1,7 +1,11 @@
 import { useSelectedExample } from "@shared";
-import { ImagesExample, TextDiffExample } from "./examples";
+import {
+  ProgressBarExample,
+  ImagesExample,
+  TextDiffExample,
+  ParallelExample,
+} from "./examples";
 import React from "react";
-import { IntroExample } from "@src/Dashboard/examples";
 
 export type CurrentExampleProps = {};
 
@@ -16,15 +20,21 @@ export const CurrentExample: React.FC<CurrentExampleProps> = React.memo(() => {
         } animate-fade-in`}
       />
 
+      <ParallelExample
+        className={`${
+          exampleName === "parallel" ? "" : "hidden"
+        } animate-fade-in`}
+      />
+
       <TextDiffExample
         className={`${
           exampleName === "text-diff" ? "" : "hidden"
         }  animate-fade-in`}
       />
 
-      <IntroExample
+      <ProgressBarExample
         className={`${
-          exampleName === "intro" ? "" : "hidden"
+          exampleName === "progress-bar" ? "" : "hidden"
         }  animate-fade-in`}
       />
     </div>

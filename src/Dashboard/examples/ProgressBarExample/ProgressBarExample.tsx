@@ -2,20 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { Button } from "@shared";
 
-type IntroExamplePayload = {
+type ProgressBarExamplePayload = {
   shouldDisplayLogs?: boolean;
 };
 
-export const IntroExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
-  className,
-  ...props
-}) => {
+export const ProgressBarExample: React.FC<
+  React.HTMLAttributes<HTMLElement>
+> = ({ className, ...props }) => {
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [isWorkerRunning, setWorkerState] = useState(false);
   const [shouldDisplayLogs, setShouldDisplayLogs] = useState(false);
   const [executedFirstTime, setExecutedFirstTime] = useState(false);
 
-  const workerRef = useRef<EasyWebWorker<IntroExamplePayload>>(null);
+  const workerRef = useRef<EasyWebWorker<ProgressBarExamplePayload>>(null);
 
   useEffect(() => {
     /**
@@ -24,45 +23,50 @@ export const IntroExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
      *
      * also notice that you can also create more complex APIs in the worker with specific methods
      */
-    workerRef.current = new EasyWebWorker<IntroExamplePayload>((easyWorker) => {
-      let intervalId: NodeJS.Timeout;
-      let count = 0;
+    workerRef.current = new EasyWebWorker<ProgressBarExamplePayload>(
+      (easyWorker) => {
+        let intervalId: NodeJS.Timeout;
+        let count = 0;
 
-      const workerState = {
-        isRunning: false,
-        shouldDisplayLogs: false,
-      };
+        const workerState = {
+          isRunning: false,
+          shouldDisplayLogs: false,
+        };
 
-      easyWorker.onMessage("start", (message) => {
-        intervalId = setInterval(() => {
-          count = count >= 100 ? 0 : count + 0.4;
+        easyWorker.onMessage("start", (message) => {
+          intervalId = setInterval(() => {
+            count = count >= 100 ? 0 : count + 0.4;
 
-          if (workerState.shouldDisplayLogs) {
-            console.log(`progress inside worker: ${count}%`);
-          }
+            if (workerState.shouldDisplayLogs) {
+              console.log(`progress inside worker: ${count}%`);
+            }
 
-          message.reportProgress(count);
-        }, 10);
-      });
-
-      easyWorker.onMessage<IntroExamplePayload>("updateState", (message) => {
-        const {
-          payload: { shouldDisplayLogs },
-        } = message;
-
-        Object.assign(workerState, {
-          shouldDisplayLogs,
+            message.reportProgress(count);
+          }, 10);
         });
 
-        message.resolve();
-      });
+        easyWorker.onMessage<ProgressBarExamplePayload>(
+          "updateState",
+          (message) => {
+            const {
+              payload: { shouldDisplayLogs },
+            } = message;
 
-      easyWorker.onMessage("pause", (message) => {
-        clearInterval(intervalId);
+            Object.assign(workerState, {
+              shouldDisplayLogs,
+            });
 
-        message.resolve();
-      });
-    });
+            message.resolve();
+          }
+        );
+
+        easyWorker.onMessage("pause", (message) => {
+          clearInterval(intervalId);
+
+          message.resolve();
+        });
+      }
+    );
 
     return () => {
       workerRef.current?.dispose();
@@ -103,48 +107,25 @@ export const IntroExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   return (
     <div className={`${className} flex flex-col gap-6`} {...props}>
       <h3 className="font-bold text-gray-600 border-b border-gray-200 pb-2">
-        Do you know what happens if you have an infinite loop in your main
-        thread?
+        Reporting progress from a web worker
       </h3>
 
-      <ul className="list-none flex flex-col gap-2 ">
-        <li className="">
-          <strong className=" mb-2 text-gray-600">
-            Browser Unresponsiveness:
-          </strong>{" "}
-          The infinite loop will consume all the available processing time on
-          the main thread, leaving no room for other operations. This results in
-          the browser becoming unresponsive, and user interactions like clicks,
-          scrolls, and keyboard inputs won't be processed, effectively freezing
-          the page.
-        </li>
-        <li className="">
-          <strong className=" mb-2  text-gray-600">High CPU Usage:</strong> The
-          loop continuously executes without any break, causing the CPU usage to
-          spike. This can slow down not only the browser but also the entire
-          operating system, impacting the performance of other applications.
-        </li>
-        <li className="">
-          <strong className=" mb-2  text-gray-600">Potential Crashes:</strong>{" "}
-          Prolonged high CPU usage may lead to the browser or even the whole
-          system crashing, especially if system resources are limited.
-        </li>
-        <li className="">
-          <strong className=" mb-2  text-gray-600">
-            Difficulty in Debugging:
-          </strong>{" "}
-          Identifying and stopping an infinite loop can be challenging, as
-          browser tools and extensions may also become unresponsive.
-        </li>
-      </ul>
+      <p className="text-gray-600  ">
+        There are several operations that can be very expensive in terms of CPU
+        and memory, like sorting a large array, or doing a heavy calculation.
+        These operations can block the main thread and make the UI unresponsive.
+      </p>
 
       <p className="text-gray-600  ">
-        Heavy computations like image resizing images, reading large files, or a
-        long-running loop can also cause the same issues.
+        Web Workers are a great way to fix this problem, but by default, the{" "}
+        <strong>WebWorker</strong> API doesn't provide a way to report progress
+        from the worker to the main thread.
       </p>
 
       <strong className="block text-gray-600">
-        But what if we could run these operations in the background?
+        So what about if we can implement cancelable promises pattern with web
+        workers along with an intuitive way to report progress to the main
+        thread?
       </strong>
 
       {/* progress bar */}
@@ -237,7 +218,7 @@ worker
         </p>
 
         <h3 className="font-bold text-gray-600 border-b border-gray-200 mb-3 py-3">
-          But how to create a the worker?
+          But how to create WebWorker?
         </h3>
 
         <p className="text-gray-600  my-3">
@@ -248,7 +229,7 @@ worker
 
         <pre>
           <code className="language-javascript block overflow-scroll">
-            {`const worker = new EasyWebWorker<IntroExamplePayload>(
+            {`const worker = new EasyWebWorker<ProgressBarExamplePayload>(
   (easyWorker) => {
     let intervalId: NodeJS.Timeout;
     let count = 0;
@@ -278,7 +259,7 @@ worker
 
         <pre>
           <code className="language-javascript block overflow-scroll">
-            {`const worker = new EasyWebWorker<IntroExamplePayload>(
+            {`const worker = new EasyWebWorker<ProgressBarExamplePayload>(
   (easyWorker) => {
     
     easyWorker.onMessage((message) => {
