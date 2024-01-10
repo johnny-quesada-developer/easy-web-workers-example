@@ -12,6 +12,7 @@ import {
   ImagesExampleSummary,
   ParallelExampleSummary,
 } from "./summaries";
+import { tryCatch } from "cancelable-promise-jq";
 
 const onMenuStateChange = ({
   asideRef,
@@ -55,7 +56,7 @@ const onMenuVisibilityChange = ({
   observer.observe(asideRef.current);
 
   return () => {
-    observer.unobserve(asideRef.current);
+    tryCatch(() => observer.unobserve(asideRef.current));
   };
 };
 
