@@ -22,7 +22,7 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       firstRunFinished: false,
     });
 
-  const [fibonacciIndexes, setFibonacciIndexes] = useState([46, 38, 36]);
+  const [fibonacciIndexes, setFibonacciIndexes] = useState([42, 38, 36]);
   const [messagesCount, setMessagesCount] = useState(1);
 
   const progressBarRef = useRef<HTMLDivElement>(null);
