@@ -353,10 +353,10 @@ camelcase-css@^2.0.1:
   resolved "https://registry.yarnpkg.com/camelcase-css/-/camelcase-css-2.0.1.tgz#ee978f6947914cc30c6b44741b6ed1df7f043fd5"
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
-cancelable-promise-jq@^1.1.2:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/cancelable-promise-jq/-/cancelable-promise-jq-1.1.3.tgz#c1284b7de01a9e43de80d72f3bf4412e47f73b1a"
-  integrity sha512-Z56XzGOfIPGl1mnZNa+Lgj7LP7oRwxd3ctupbpS2JURM7H96+lUOK2bsH9ObXCS8P745IXmJy+WsGQ5I10fA9Q==
+cancelable-promise-jq@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/cancelable-promise-jq/-/cancelable-promise-jq-2.0.4.tgz#d170a26c8fcd291fed01f396143b7505b45df00c"
+  integrity sha512-9hQO+/tlAKIXVYeJJui3ZLLYV/z3eCplnfuR5eWrKWn2E276uUFEsUpelRkVszfH5IHfb2ThJwwvt52lHnOluQ==
 
 caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001541:
   version "1.0.30001564"
@@ -408,10 +408,10 @@ dlv@^1.1.3:
   resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
   integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
 
-easy-web-worker@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/easy-web-worker/-/easy-web-worker-5.0.0.tgz#ef2fa89d7352ca8d1892bd7b7aba6f60d1d4b098"
-  integrity sha512-2N5z7croxxk9/prHRYZU7vKyYlI5wXADXh6G/fJ4L9y9NY/myzir+2B5woVMTmNFqtmX03nyuJFIyF2J3dI1IQ==
+easy-web-worker@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/easy-web-worker/-/easy-web-worker-6.0.2.tgz#65b706bf1bcff9b23bb6805cb3079ff7725614c2"
+  integrity sha512-TKI275OeLk5PZD9T3KivvjIkpL6n/Xv+dZvW0aaOhtST5NCYQM6y7BDf6nQy2PYTXDlNQijrA9HyXx8RhmTU1w==
 
 electron-to-chromium@^1.4.535:
   version "1.4.593"

@@ -3,25 +3,21 @@ import { Button } from "@shared";
 import { useCallback, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { DiffLibExampleComparePayload } from "./TextDiffExample.types";
-import workerScript from "./TextDiffExample.worker?worker&url";
+import workerUrl from "./TextDiffExample.worker?worker&url";
 
 // with vite we create the worker in different ways depending on if we are in production or development
-const easyWebWorker = (() => {
-  const mode = import.meta.env.MODE;
+const isProduction = import.meta.env.MODE === "production";
 
-  if (mode === "production") {
-    return new EasyWebWorker(workerScript);
+const worker = new EasyWebWorker(
+  isProduction
+    ? workerUrl
+    : new URL("./TextDiffExample.worker.ts", import.meta.url),
+  {
+    workerOptions: {
+      type: "module",
+    },
   }
-
-  const workerUrl = new URL("./TextDiffExample.worker.ts", import.meta.url);
-  const worker = new Worker(workerUrl, {
-    type: "module",
-  });
-
-  return new EasyWebWorker(worker, {
-    url: workerUrl.href,
-  });
-})();
+);
 
 export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
@@ -42,7 +38,7 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       return;
     }
 
-    const result = await easyWebWorker.sendToMethod<
+    const result = await worker.sendToMethod<
       string,
       DiffLibExampleComparePayload
     >("compare", {
