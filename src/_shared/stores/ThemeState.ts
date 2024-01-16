@@ -23,7 +23,6 @@ const loadTheme = (value: string): Promise<void> => {
   if (mode !== "production") {
     source.promise = import(themeUrl).then(() => {
       source.isLoaded = true;
-      prismjs.theme = value;
     });
 
     return source.promise;
@@ -39,7 +38,6 @@ const loadTheme = (value: string): Promise<void> => {
 
     styleElement.onload = () => {
       source.isLoaded = true;
-      prismjs.theme = value;
 
       resolve();
     };
@@ -55,7 +53,7 @@ export const [useTheme, getTheme, themeState] =
     localStorage: {
       key: "app-theme",
     },
-    onInit: async ({ getState }: StateConfigCallbackParam<ThemeState>) => {
+    onInit: async ({ getState }) => {
       const value = getState();
 
       document.documentElement.classList.add(
@@ -70,6 +68,13 @@ export const [useTheme, getTheme, themeState] =
           await loadTheme(getState());
 
           prismjs.highlightAll();
+        };
+      },
+      highlightElement: (element: HTMLElement) => {
+        return async ({ getState }: StoreTools<ThemeState>) => {
+          await loadTheme(getState());
+
+          prismjs.highlightElement(element);
         };
       },
       toggle: () => {

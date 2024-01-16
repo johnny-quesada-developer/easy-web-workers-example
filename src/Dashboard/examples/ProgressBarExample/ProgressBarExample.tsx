@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { EasyWebWorker } from "easy-web-worker";
+import { EasyWebWorker, IEasyWebWorkerMessage } from "easy-web-worker";
 import { Button } from "@shared";
 
 type ProgressBarExamplePayload = {
@@ -24,17 +24,21 @@ export const ProgressBarExample: React.FC<
      * also notice that you can also create more complex APIs in the worker with specific methods
      */
     workerRef.current = new EasyWebWorker<ProgressBarExamplePayload>(
-      (easyWorker) => {
-        let intervalId: NodeJS.Timeout;
-        let count = 0;
-
+      ({ onMessage }) => {
         const workerState = {
           isRunning: false,
           shouldDisplayLogs: false,
         };
 
-        easyWorker.onMessage("start", (message) => {
-          intervalId = setInterval(() => {
+        let firstMessage: IEasyWebWorkerMessage<null, void>;
+
+        onMessage("start", (message) => {
+          // we just save the first message to resolve it later
+          firstMessage = message;
+
+          let count = 0;
+
+          const intervalId = setInterval(() => {
             count = count >= 100 ? 0 : count + 0.4;
 
             if (workerState.shouldDisplayLogs) {
@@ -43,26 +47,26 @@ export const ProgressBarExample: React.FC<
 
             message.reportProgress(count);
           }, 10);
+
+          message.onFinalize(() => {
+            clearInterval(intervalId);
+          });
         });
 
-        easyWorker.onMessage<ProgressBarExamplePayload>(
-          "updateState",
-          (message) => {
-            const {
-              payload: { shouldDisplayLogs },
-            } = message;
+        onMessage<ProgressBarExamplePayload>("updateState", (message) => {
+          const {
+            payload: { shouldDisplayLogs },
+          } = message;
 
-            Object.assign(workerState, {
-              shouldDisplayLogs,
-            });
+          Object.assign(workerState, {
+            shouldDisplayLogs,
+          });
 
-            message.resolve();
-          }
-        );
+          message.resolve();
+        });
 
-        easyWorker.onMessage("pause", (message) => {
-          clearInterval(intervalId);
-
+        onMessage("pause", (message) => {
+          firstMessage.resolve();
           message.resolve();
         });
       }
@@ -88,7 +92,7 @@ export const ProgressBarExample: React.FC<
       .onProgress((progress) => {
         progressBarRef.current.style.width = `${progress}%`;
       })
-      .finally(() => {
+      .then(() => {
         console.log("worker finished");
       })
       .catch((error) => {
@@ -191,23 +195,20 @@ export const ProgressBarExample: React.FC<
 
         <pre>
           <code className="language-javascript block overflow-scroll">
-            {`// Starts the worker
+            {`// Starts the counting
 worker
-  .sendToMethod("start")
+  .sendToMethod("start", 'start counting')
   .onProgress((progress) => {
     progressBarRef.current.style.width = \`\${progress}%\`;
   })
-  .finally(() => {
+  .then(() => {
     console.log("worker finished");
   })
-  .catch((error) => {
-    console.log(error);
-  });
+  .catch(console.log);
 
 
-// Pauses the worker
-worker
-  .sendToMethod("pause");
+// Pauses the counting
+worker.sendToMethod("pause");
 `}
           </code>
         </pre>
@@ -229,26 +230,32 @@ worker
 
         <pre>
           <code className="language-javascript block overflow-scroll">
-            {`const worker = new EasyWebWorker<ProgressBarExamplePayload>(
-  (easyWorker) => {
-    let intervalId: NodeJS.Timeout;
+            {`const worker = new EasyWebWorker(({ onMessage }) => {
+  let firstMessage;
+
+  onMessage("start", (message) => {
+    console.log(message.payload); // start counting
+
+    // Save the first message to resolve it later
+    firstMessage = message;
+
     let count = 0;
 
-    easyWorker.onMessage("start", (message) => {
-      intervalId = setInterval(() => {
-        count = count >= 100 ? 0 : count + 0.4;
+    const intervalId = setInterval(() => {
+      count = count >= 100 ? 0 : count + 0.4;
 
-        message.reportProgress(count);
-      }, 10);
-    });
+      message.reportProgress(count);
+    }, 10);
 
-    easyWorker.onMessage("pause", (message) => {
-      clearInterval(intervalId);
+    message.onFinalize(() => clearInterval(intervalId));
+  });
 
-      message.resolve();
-    });
-  }
-);`}
+  onMessage("pause", (message) => {
+    firstMessage.resolve();
+
+    message.resolve("stop counting");
+  });
+})`}
           </code>
         </pre>
 
@@ -259,18 +266,15 @@ worker
 
         <pre>
           <code className="language-javascript block overflow-scroll">
-            {`const worker = new EasyWebWorker<ProgressBarExamplePayload>(
-  (easyWorker) => {
-    
-    easyWorker.onMessage((message) => {
+            {`const worker = new EasyWebWorker(({ onMessage }) => {
+    onMessage((message) => {
       const { payload } = message;
 
       // do something...
 
       message.resolve();
     });
-  }
-);`}
+});`}
           </code>
         </pre>
       </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { EasyWebWorker, createEasyWebWorker } from "easy-web-worker";
 import { Button, themeState, selectedExample } from "@shared";
+import WorkerCodeExamples from "./WorkerCodeExamples";
 
 const fibonacci = (index: number) => {
   if (index <= 1) return index;
@@ -262,34 +263,7 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
             </>
           )}
 
-          {!firstRunFinished && (
-            <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
-              <code className="language-javascript block overflow-scroll">
-                {`useEffect(() => {
-  workerRef.current = createEasyWebWorker(
-    (easyWorker) => {
-      const fibonacci = (index) => {
-        if (index <= 1) return index;
-
-        return fibonacci(index - 1) + fibonacci(index - 2);
-      };
-
-      easyWorker.onMessage((message) => {
-        const { fibonacciIndex } = message.payload;
-        const result = fibonacci(fibonacciIndex);
-
-        message.resolve(result);
-      });
-    },
-  );
-
-  return () => {
-    workerRef.current?.dispose();
-  };
-}, [])`}
-              </code>
-            </pre>
-          )}
+          {!firstRunFinished && <WorkerCodeExamples />}
 
           {!firstRunFinished && (
             <>
@@ -300,11 +274,7 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
               <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
                 <code className="language-javascript block overflow-scroll">
-                  {`setIsRunning(true);
-
-await workerRef.current.send();
-
-setIsRunning(false);`}
+                  {`await worker.send();`}
                 </code>
               </pre>
             </>
