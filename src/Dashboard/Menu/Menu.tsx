@@ -11,6 +11,7 @@ import {
   DiffLibExampleSummary,
   ImagesExampleSummary,
   ParallelExampleSummary,
+  TypescriptExampleSummary,
 } from "./summaries";
 import { tryCatch } from "cancelable-promise-jq";
 
@@ -91,6 +92,10 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
           {
             key: "parallel",
             component: <ParallelExampleSummary />,
+          },
+          {
+            key: "typescript",
+            component: <TypescriptExampleSummary />,
           },
           {
             key: "progress-bar",

@@ -6,7 +6,12 @@ import {
 import { StateConfigCallbackParam } from "react-hooks-global-states";
 import { MIN_WITH_FOR_TWO_COLUMNS } from "./MenuState";
 
-export type TExample = "text-diff" | "images" | "progress-bar" | "parallel";
+export type TExample =
+  | "text-diff"
+  | "images"
+  | "progress-bar"
+  | "parallel"
+  | "typescript";
 
 export type SelectedExample = {
   name: TExample;

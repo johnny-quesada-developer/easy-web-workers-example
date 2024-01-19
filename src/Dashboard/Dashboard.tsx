@@ -32,10 +32,10 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = () => {
 
       <ThemeButton className="fixed top-16 right-6 z-20" />
 
-      <div className="mt-14 bg-stone-200 dark:bg-black font-serif leading-6 flex flex-col md:flex-row lg:flex-row p-6 max-w-full">
+      <div className="mt-14 bg-stone-200 dark:bg-black font-serif leading-6 flex flex-col md:flex-row lg:flex-row p-6 max-w-full flex-wrap">
         <Menu className="" />
 
-        <main className="flex-1 max-w-full">
+        <main className="flex-1 max-w-full overflow-hidden">
           <Card className="">
             <CurrentExample />
           </Card>

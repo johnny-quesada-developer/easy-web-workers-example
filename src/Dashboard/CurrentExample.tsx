@@ -4,6 +4,7 @@ import {
   ImagesExample,
   TextDiffExample,
   ParallelExample,
+  TypescriptExample,
 } from "./examples";
 import React from "react";
 
@@ -35,6 +36,12 @@ export const CurrentExample: React.FC<CurrentExampleProps> = React.memo(() => {
       <ProgressBarExample
         className={`${
           exampleName === "progress-bar" ? "" : "hidden"
+        }  animate-fade-in`}
+      />
+
+      <TypescriptExample
+        className={`${
+          exampleName === "typescript" ? "" : "hidden"
         }  animate-fade-in`}
       />
     </div>
