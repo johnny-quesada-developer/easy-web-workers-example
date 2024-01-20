@@ -57,7 +57,7 @@ export const TypescriptExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         EasyWebWorker
       </h3>
 
-      <Collapsible title="Javascript code" isOpen={!result} className="w-full">
+      <Collapsible title="Typescript code" isOpen={!result} className="w-full">
         <textarea
           className="border border-gray-300 rounded-sm h-96 p-4 w-full"
           name="input-javascript"
@@ -67,7 +67,7 @@ export const TypescriptExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
       <hr className="border-gray-300" />
 
-      <Collapsible title="Typescript code" isOpen={true} className="w-full">
+      <Collapsible title="Javascript code" isOpen={true} className="w-full">
         <pre className="max-w-full overflow-hidden">
           <code className="language-javascript max-w-full">
             {result ? result : "Your transpiled code will appear here"}
