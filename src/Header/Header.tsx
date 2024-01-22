@@ -2,6 +2,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosArrowBack } from "react-icons/io";
 
 import { useMenuState } from "@shared";
+import merge from "easy-css-merge";
 
 export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
@@ -12,13 +13,16 @@ export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   return (
     <header
       {...props}
-      className={`${className} h-14 bg-gray-700 flex items-center justify-start px-6 gap-3`}
+      className={merge(
+        "h-14 bg-gray-700 flex items-center justify-start px-6 gap-3",
+        className
+      )}
     >
       <button
         title="Close menu"
-        className={`${
-          isMenuOpen ? "animate-fade-in" : "hidden"
-        } cursor-pointer`}
+        className={merge("cursor-pointer", {
+          hidden: !isMenuOpen,
+        })}
         onClick={actions.close}
       >
         <IoIosArrowBack color="white" />
@@ -26,9 +30,9 @@ export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
       <button
         title="Open menu"
-        className={`${
-          !isMenuOpen ? "animate-fade-in" : "hidden"
-        } cursor-pointer`}
+        className={merge("cursor-pointer", {
+          hidden: isMenuOpen,
+        })}
         onClick={actions.open}
       >
         <GiHamburgerMenu color="white" />

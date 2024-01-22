@@ -1,4 +1,5 @@
-import { themeState } from "@src/_shared";
+import { CodeFragment, theme, write } from "@src/_shared";
+import merge from "easy-css-merge";
 import React, { useRef, useState } from "react";
 
 type WorkerCodeExamplesProps = React.HTMLAttributes<HTMLDivElement> & {};
@@ -12,17 +13,15 @@ const MyComponent: React.FC<WorkerCodeExamplesProps> = ({
 
   const elementRef = useRef<HTMLDivElement>(null);
 
-  themeState.highlight();
-
   return (
-    <div className={`${className}`} {...prop} ref={elementRef}>
+    <div className={merge(className)} {...prop} ref={elementRef}>
       <div className="w-full flex justify-end">
         {(["javascript", "react", "react_ts"] as TExample[]).map((item) => (
           <button
             key={item}
-            className={`text-sm font-semibold text-gray-600 mr-3 mb-3 ${
-              example === item ? "text-purple-500" : ""
-            }`}
+            className={merge("text-sm font-semibold text-gray-600 mr-3 mb-3", {
+              "text-purple-500": example === item,
+            })}
             onClick={() => setExample(item)}
           >
             {item}
@@ -30,95 +29,115 @@ const MyComponent: React.FC<WorkerCodeExamplesProps> = ({
         ))}
       </div>
 
-      <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
-        <code
-          className={`language-javascript block overflow-scroll animate-fade-in ${
-            example !== "javascript" ? "hidden" : ""
-          }`}
+      {example === "javascript" && (
+        <CodeFragment
+          className={merge("bg-stone-100 rounded-sm p-3 animate-fade-in")}
         >
-          {`const worker = createEasyWebWorker(({ onMessage }) => {
-  const fibonacci = (index) => {
-    if (index <= 1) return index;
+          {write("const worker = createEasyWebWorker(({ onMessage }) => {")
+            .newLine(4, "const fibonacci = (index) => {")
+            .newLine(8, "if (index <= 1) return index;")
+            .newLine(8, "")
+            .newLine(8, "return fibonacci(index - 1) + fibonacci(index - 2);")
+            .newLine(4, "};")
+            .newLine(4, "")
+            .newLine(4, "onMessage((message) => {")
+            .newLine(8, "const { fibonacciIndex } = message.payload;")
+            .newLine(8, "const result = fibonacci(fibonacciIndex);")
+            .newLine(8, "")
+            .newLine(8, "message.resolve(result);")
+            .newLine(4, "});")
+            .newLine(0, "});")
+            .concat()}
+        </CodeFragment>
+      )}
 
-    return fibonacci(index - 1) + fibonacci(index - 2);
-  };
+      {example === "react" && (
+        <CodeFragment
+          className={merge("bg-stone-100 rounded-sm p-3 animate-fade-in")}
+        >
+          {write("/**")
+            .newLine(0, " * If the worker should not be globally available,")
+            .newLine(
+              0,
+              " * you can use the useRef combined with useEffect to create and dispose the worker."
+            )
+            .newLine(0, " */")
+            .newLine(0, "const workerRef = useRef(null);")
+            .newLine(0, "")
+            .newLine(0, "useEffect(() => {")
+            .newLine(
+              4,
+              "workerRef.current = createEasyWebWorker(({ onMessage }) => {"
+            )
+            .newLine(8, "const fibonacci = (index) => {")
+            .newLine(12, "if (index <= 1) return index;")
+            .newLine(12, "")
+            .newLine(12, "return fibonacci(index - 1) + fibonacci(index - 2);")
+            .newLine(8, "};")
+            .newLine(8, "")
+            .newLine(8, "onMessage((message) => {")
+            .newLine(12, "const { fibonacciIndex } = message.payload;")
+            .newLine(12, "const result = fibonacci(fibonacciIndex);")
+            .newLine(12, "")
+            .newLine(12, "message.resolve(result);")
+            .newLine(8, "});")
+            .newLine(4, "});")
+            .newLine(4, "")
+            .newLine(4, "return () => {")
+            .newLine(8, "workerRef.current?.dispose();")
+            .newLine(4, "};")
+            .newLine(0, "}, []);")
+            .concat()}
+        </CodeFragment>
+      )}
 
-  onMessage((message) => {
-    const { fibonacciIndex } = message.payload;
-    const result = fibonacci(fibonacciIndex);
-
-    message.resolve(result);
-  });
-});`}
-        </code>
-
-        <code
-          className={`language-javascript block overflow-scroll animate-fade-in ${
-            example !== "react" ? "hidden" : ""
-          }`}
-        >{`/**
- * If the worker should not be globally available,
- * you can use the useRef combined with useEffect to create and dispose the worker.
- */
-const workerRef = useRef(null);
-
-useEffect(() => {
-  workerRef.current = createEasyWebWorker(({ onMessage }) => {
-    const fibonacci = (index) => {
-      if (index <= 1) return index;
-
-      return fibonacci(index - 1) + fibonacci(index - 2);
-    };
-
-    onMessage((message) => {
-      const { fibonacciIndex } = message.payload;
-      const result = fibonacci(fibonacciIndex);
-
-      message.resolve(result);
-    });
-  });
-
-  return () => {
-    workerRef.current?.dispose();
-  };
-}, []);`}</code>
-
-        <code
-          className={`language-javascript block overflow-scroll animate-fade-in ${
-            example !== "react_ts" ? "hidden" : ""
-          }`}
-        >{`/**
- * If the worker should not be globally available,
- * you can use the useRef combined with useEffect to create and dispose the worker.
- */
-type TPayload = number;
-type TResult = number;
-
-const workerRef = useRef<EasyWebWorker<TPayload, TResult>>(null);
-
-useEffect(() => {
-  workerRef.current = createEasyWebWorker<TPayload, TResult>(
-    ({ onMessage }) => {
-      const fibonacci = (index: number) => {
-        if (index <= 1) return index;
-
-        return fibonacci(index - 1) + fibonacci(index - 2);
-      };
-
-      onMessage((message) => {
-        const { fibonacciIndex } = message.payload;
-        const result = fibonacci(fibonacciIndex);
-
-        message.resolve(result);
-      });
-    }
-  );
-
-  return () => {
-    workerRef.current?.dispose();
-  };
-}, []);`}</code>
-      </pre>
+      {example === "react_ts" && (
+        <CodeFragment
+          className={merge("bg-stone-100 rounded-sm p-3 animate-fade-in")}
+        >
+          {write("/**")
+            .newLine(0, " * If the worker should not be globally available,")
+            .newLine(
+              0,
+              " * you can use the useRef combined with useEffect to create and dispose the worker."
+            )
+            .newLine(0, " */")
+            .newLine(0, "type TPayload = number;")
+            .newLine(0, "type TResult = number;")
+            .newLine(0, "")
+            .newLine(
+              0,
+              "const workerRef = useRef<EasyWebWorker<TPayload, TResult>>(null);"
+            )
+            .newLine(0, "")
+            .newLine(0, "useEffect(() => {")
+            .newLine(
+              4,
+              "workerRef.current = createEasyWebWorker<TPayload, TResult>("
+            )
+            .newLine(8, "({ onMessage }) => {")
+            .newLine(12, "const fibonacci = (index: number) => {")
+            .newLine(16, "if (index <= 1) return index;")
+            .newLine(16, "")
+            .newLine(16, "return fibonacci(index - 1) + fibonacci(index - 2);")
+            .newLine(12, "};")
+            .newLine(12, "")
+            .newLine(12, "onMessage((message) => {")
+            .newLine(16, "const { fibonacciIndex } = message.payload;")
+            .newLine(16, "const result = fibonacci(fibonacciIndex);")
+            .newLine(16, "")
+            .newLine(16, "message.resolve(result);")
+            .newLine(12, "});")
+            .newLine(8, "}")
+            .newLine(4, ");")
+            .newLine(4, "")
+            .newLine(4, "return () => {")
+            .newLine(8, "workerRef.current?.dispose();")
+            .newLine(4, "};")
+            .newLine(0, "}, []);")
+            .concat()}
+        </CodeFragment>
+      )}
     </div>
   );
 };

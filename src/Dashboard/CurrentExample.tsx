@@ -7,6 +7,7 @@ import {
   TypescriptExample,
 } from "./examples";
 import React from "react";
+import merge from "easy-css-merge";
 
 export type CurrentExampleProps = {};
 
@@ -16,33 +17,29 @@ export const CurrentExample: React.FC<CurrentExampleProps> = React.memo(() => {
   return (
     <div>
       <ImagesExample
-        className={`${
-          exampleName === "images" ? "" : "hidden"
-        } animate-fade-in`}
+        className={merge("animate-fade-in", {
+          hidden: exampleName !== "images",
+        })}
       />
-
       <ParallelExample
-        className={`${
-          exampleName === "parallel" ? "" : "hidden"
-        } animate-fade-in`}
+        className={merge("animate-fade-in", {
+          hidden: exampleName !== "parallel",
+        })}
       />
-
       <TextDiffExample
-        className={`${
-          exampleName === "text-diff" ? "" : "hidden"
-        }  animate-fade-in`}
+        className={merge("animate-fade-in", {
+          hidden: exampleName !== "text-diff",
+        })}
       />
-
       <ProgressBarExample
-        className={`${
-          exampleName === "progress-bar" ? "" : "hidden"
-        }  animate-fade-in`}
+        className={merge("animate-fade-in", {
+          hidden: exampleName !== "progress-bar",
+        })}
       />
-
       <TypescriptExample
-        className={`${
-          exampleName === "typescript" ? "" : "hidden"
-        }  animate-fade-in`}
+        className={merge("animate-fade-in", {
+          hidden: exampleName !== "typescript",
+        })}
       />
     </div>
   );

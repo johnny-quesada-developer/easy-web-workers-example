@@ -1,9 +1,10 @@
 import "./TextDiffExample.scss";
-import { Button } from "@shared";
+import { Button, CodeFragment, write } from "@shared";
 import { useCallback, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { DiffLibExampleComparePayload } from "./TextDiffExample.types";
 import workerUrl from "./TextDiffExample.worker?worker&url";
+import merge from "easy-css-merge";
 
 // with vite we create the worker in different ways depending on if we are in production or development
 const isProduction = import.meta.env.MODE === "production";
@@ -50,7 +51,7 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   }, [formRef.current]);
 
   return (
-    <div className={`${className} mt-3`} {...props}>
+    <div className={merge("mt-3", className)} {...props}>
       <h3 className="font-bold text-gray-500 border-b border-gray-200 pb-2">
         Comparing text input with{" "}
         <strong className=" text-black">JSDifflib</strong> and{" "}
@@ -119,48 +120,54 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
           the code below:
         </p>
 
-        <pre className="text-gray-600 mt-3">
-          <code className="language-js">
-            {`// worker.ts Instead of using the function template, we just create a new instance of StaticEasyWebWorker into our worker file
-const easyWorker = new StaticEasyWebWorker();
-
-// by using th eapi of the static worker we can keep the same cancelable promise pattern into our worker API
-easyWorker.onMessage<DiffLibExampleComparePayload, string>(
-  "compare",
-  (message) => {
-    const { input1, input2 } = message.payload;
-
-    const textDiff = new TextDiff();
-
-    // HEAVY OPERATION
-    const diff = textDiff.main(input1, input2);
-    
-    const diffDisplay = textDiff.prettyHtml(diff);
-
-    message.resolve(diffDisplay);
-  }
-);
-`}
-          </code>
-        </pre>
+        <CodeFragment className="text-gray-600 mt-3">
+          {write(
+            "// worker.ts Instead of using the function template, we just create a new instance of StaticEasyWebWorker into our worker file"
+          )
+            .newLine(0, "const easyWorker = new StaticEasyWebWorker();")
+            .newLine(0, "")
+            .newLine(
+              0,
+              "// by using the API of the static worker we can keep the same cancelable promise pattern into our worker API"
+            )
+            .newLine(
+              0,
+              "easyWorker.onMessage<DiffLibExampleComparePayload, string>("
+            )
+            .newLine(4, '"compare",')
+            .newLine(4, "(message) => {")
+            .newLine(8, "const { input1, input2 } = message.payload;")
+            .newLine(8, "")
+            .newLine(8, "const textDiff = new TextDiff();")
+            .newLine(8, "")
+            .newLine(8, "// HEAVY OPERATION")
+            .newLine(8, "const diff = textDiff.main(input1, input2);")
+            .newLine(8, "")
+            .newLine(8, "const diffDisplay = textDiff.prettyHtml(diff);")
+            .newLine(8, "")
+            .newLine(8, "message.resolve(diffDisplay);")
+            .newLine(4, "}")
+            .newLine(0, ");")
+            .concat()}
+        </CodeFragment>
 
         <p className="text-gray-600 mt-3">
           Consuming our worker then is a very easy task:
         </p>
 
-        <pre className="text-gray-600 mt-3">
-          <code className="language-js">
-            {`const result = await easyWebWorker.sendToMethod<
-      string, //Result type
-      { input1: string; input2: string } // Payload type
->("compare", {
-      input1,
-      input2,
-});
-      
-setResult(result);`}
-          </code>
-        </pre>
+        <CodeFragment className="text-gray-600 mt-3">
+          {write("const result = await easyWebWorker.sendToMethod<")
+            .newLine(6, "string, //Result type")
+            .newLine(6, "{ input1: string; input2: string } // Payload type")
+            .newLine(0, ">(")
+            .newLine(4, '"compare", {')
+            .newLine(8, "input1,")
+            .newLine(8, "input2,")
+            .newLine(4, "});")
+            .newLine(0, "")
+            .newLine(0, "setResult(result);")
+            .concat()}
+        </CodeFragment>
       </form>
     </div>
   );

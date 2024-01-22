@@ -1,4 +1,5 @@
 import { Collapsible, Button, useSelectedExample } from "@shared";
+import merge from "easy-css-merge";
 
 export const DiffLibExampleSummary = () => {
   const exampleName = "text-diff";
@@ -21,9 +22,10 @@ export const DiffLibExampleSummary = () => {
 
       <div className="flex justify-end">
         <Button
-          className={`${
-            isSelected ? "bg-stone-400" : "bg-gray-700"
-          } text-white px-4 py-1 rounded-sm mt-3  w-24`}
+          className={merge("text-white px-4 py-1 rounded-sm mt-3  w-24", {
+            "bg-stone-400": isSelected,
+            "bg-gray-700": !isSelected,
+          })}
           onClick={() => actions.setCurrent(exampleName)}
         >
           {isSelected ? "Selected" : "Select"}

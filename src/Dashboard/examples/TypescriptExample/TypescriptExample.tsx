@@ -1,7 +1,8 @@
 import EasyWebWorker, { createEasyWebWorker } from "easy-web-worker";
 import workerUrl from "./TypescriptExample.worker?worker&url";
-import { Button, Collapsible, themeState } from "@src/_shared";
+import { Button, CodeFragment, Collapsible, theme } from "@src/_shared";
 import { useRef, useState, useEffect } from "react";
+import merge from "easy-css-merge";
 
 // with vite we create the worker in different ways depending on if we are in production or development
 const isProduction = import.meta.env.MODE === "production";
@@ -44,11 +45,9 @@ export const TypescriptExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     inputJavascript.value = localStorage.getItem("typescript-example") || "";
   }, []);
 
-  themeState.highlight();
-
   return (
     <div
-      className={`flex flex-col gap-6 ${className}`}
+      className={merge("flex flex-col gap-6", className)}
       {...props}
       ref={containerRef}
     >
@@ -59,7 +58,10 @@ export const TypescriptExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
       <Collapsible title="Typescript code" isOpen={!result} className="w-full">
         <textarea
-          className="border border-gray-300 rounded-sm h-96 p-4 w-full"
+          className={merge(
+            "border border-gray-300 rounded-sm h-96 p-4 w-full",
+            "bg-rose-25 dark:bg-black dark:text-gray-300"
+          )}
           name="input-javascript"
           placeholder="Write some typescript code here"
         ></textarea>
@@ -68,11 +70,9 @@ export const TypescriptExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
       <hr className="border-gray-300" />
 
       <Collapsible title="Javascript code" isOpen={true} className="w-full">
-        <pre className="max-w-full overflow-hidden">
-          <code className="language-javascript max-w-full">
-            {result ? result : "Your transpiled code will appear here"}
-          </code>
-        </pre>
+        <CodeFragment className="max-w-full overflow-hidden">
+          {result ? result : "// Your transpiled code will appear here"}
+        </CodeFragment>
       </Collapsible>
 
       <Button

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "cancelable-promise-jq": "^2.0.4",
+    "easy-css-merge": "^1.0.0",
     "easy-web-worker": "^6.1.0",
     "opencv-ts": "^1.3.6",
     "prismjs": "^1.29.0",

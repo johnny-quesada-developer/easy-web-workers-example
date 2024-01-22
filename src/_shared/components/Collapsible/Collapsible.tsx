@@ -8,6 +8,7 @@ import {
 } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "./Collapsible.scss";
+import merge from "easy-css-merge";
 
 type CollapsibleProps = PropsWithChildren<
   React.HTMLAttributes<HTMLElement> & {
@@ -80,16 +81,19 @@ export const Collapsible = forwardRef<unknown, CollapsibleProps>(
         {...props}
         ref={detailsRef}
         open={true}
-        className={`${className} collapsible marker:no-underline`}
+        className={merge("collapsible marker:no-underline", className)}
       >
         <summary
           className="list-none flex justify-between items-center cursor-pointer"
           onClick={toggle}
         >
           <button
-            className={`flex justify-between items-center flex-1 text-left ${
-              isCollapsibleOpen ? "pb-2 border-b border-gray-200" : ""
-            }`}
+            className={merge(
+              "flex justify-between items-center flex-1 text-left",
+              {
+                "pb-2 border-b border-gray-200": isCollapsibleOpen,
+              }
+            )}
           >
             <div className="">
               {isStringTitle ? (
@@ -98,21 +102,19 @@ export const Collapsible = forwardRef<unknown, CollapsibleProps>(
                 title
               )}
             </div>
-
             <IoIosArrowUp className="text-gray-600 collapsible-close-arrow" />
-
             <IoIosArrowDown className="text-gray-600 collapsible-open-arrow" />
           </button>
         </summary>
 
         <div
-          className={`
-          collapsible-details overflow-hidden animation-fill-mode-forwards
-          ${
-            isCollapsibleOpen
-              ? "animate-expand-from-top"
-              : "animate-collapse-to-top"
-          }`}
+          className={merge(
+            "collapsible-details overflow-hidden animation-fill-mode-forwards",
+            {
+              "animate-expand-from-top": isCollapsibleOpen,
+              "animate-collapse-to-top": !isCollapsibleOpen,
+            }
+          )}
         >
           {children}
         </div>

@@ -1,4 +1,5 @@
 import { isPromise, tryCatch, tryCatchPromise } from "cancelable-promise-jq";
+import merge from "easy-css-merge";
 import { PropsWithChildren, useCallback, useRef } from "react";
 import { ImSpinner } from "react-icons/im";
 
@@ -57,7 +58,7 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       onClick={handleClick}
       {...props}
-      className={`flex gap-3 justify-center items-center ${className}`}
+      className={merge("flex gap-3 justify-center items-center", className)}
     >
       <div>{children}</div>
 

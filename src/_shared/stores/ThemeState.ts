@@ -1,7 +1,10 @@
 import prismjs from "prismjs";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-tsx";
+
 import {
   createGlobalStateWithDecoupledFuncs,
-  StateConfigCallbackParam,
   StoreTools,
 } from "react-global-state-hooks";
 
@@ -48,8 +51,9 @@ const loadTheme = (value: string): Promise<void> => {
 
 export type ThemeState = "prism-tomorrow" | "prism";
 
-export const [useTheme, getTheme, themeState] =
-  createGlobalStateWithDecoupledFuncs("prism-tomorrow" as ThemeState, {
+export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
+  "prism-tomorrow" as ThemeState,
+  {
     localStorage: {
       key: "app-theme",
     },
@@ -74,7 +78,7 @@ export const [useTheme, getTheme, themeState] =
         return async ({ getState }: StoreTools<ThemeState>) => {
           await loadTheme(getState());
 
-          prismjs.highlightElement(element);
+          prismjs.highlightElement(element, false);
         };
       },
       toggle: () => {
@@ -87,4 +91,5 @@ export const [useTheme, getTheme, themeState] =
         };
       },
     } as const,
-  });
+  }
+);

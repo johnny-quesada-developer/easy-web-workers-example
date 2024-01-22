@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { EasyWebWorker, createEasyWebWorker } from "easy-web-worker";
-import { Button, themeState, selectedExample } from "@shared";
+import { Button, theme, selectedExample, write, CodeFragment } from "@shared";
 import WorkerCodeExamples from "./WorkerCodeExamples";
+import merge from "easy-css-merge";
 
 const fibonacci = (index: number) => {
   if (index <= 1) return index;
@@ -149,10 +150,8 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     setIsRunning(false);
   };
 
-  themeState.highlight();
-
   return (
-    <div className={`${className} flex flex-col gap-6`} {...props}>
+    <div className={merge("flex flex-col gap-6", className)} {...props}>
       <h3 className="font-bold text-gray-600 border-b border-gray-200 pb-2">
         Did you know that javascript is single-threaded?
       </h3>
@@ -212,13 +211,14 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
             result.
           </p>
 
-          <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
-            <code className="language-javascript block overflow-scroll">{`const fibonacci = (index: number) => {
-  if (index <= 1) return index;
-
-  return fibonacci(index - 1) + fibonacci(index - 2);
-}`}</code>
-          </pre>
+          <CodeFragment className="bg-stone-100 rounded-sm p-3 animate-fade-in">
+            {write("const fibonacci = (index: number) => {")
+              .newLine(4, "if (index <= 1) return index;")
+              .newLine(0, "")
+              .newLine(4, "return fibonacci(index - 1) + fibonacci(index - 2);")
+              .newLine(0, "}")
+              .concat()}
+          </CodeFragment>
 
           <p className="text-gray-600  ">
             Once you are ready reviewin the code, click the button for start the
@@ -226,7 +226,7 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
           </p>
 
           <Button
-            className={`w-24 bg-gray-700 text-white px-4 py-1 rounded-sm`}
+            className={"w-24 bg-gray-700 text-white px-4 py-1 rounded-sm"}
             onClick={executeInMainThread}
           >
             Run
@@ -272,11 +272,9 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
                 the send method of our easy web worker instance:
               </p>
 
-              <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
-                <code className="language-javascript block overflow-scroll">
-                  {`await worker.send();`}
-                </code>
-              </pre>
+              <CodeFragment className="bg-stone-100 rounded-sm p-3 animate-fade-in">
+                await worker.send();
+              </CodeFragment>
             </>
           )}
 
@@ -380,26 +378,27 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
                 </label>
               </form>
 
-              <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
-                <code className="language-javascript block overflow-scroll">
-                  {`setIsRunning(true);
-
-const promises = [
-  ${new Array(messagesCount)
-    .fill(0)
-    .map((_, index) => {
-      return `workerRef.current.send({ fibonacciIndex: ${
-        fibonacciIndexes[index] ?? 1
-      } })`;
-    })
-    .join(",\n  ")}
-];
-
-const results = await Promise.all(promises);
-
-setIsRunning(false);`}
-                </code>
-              </pre>
+              <CodeFragment className="bg-stone-100 rounded-sm p-3 animate-fade-in">
+                {write("setIsRunning(true);")
+                  .newLine(0, "")
+                  .newLine(0, "const promises = [")
+                  .forEach(
+                    new Array(messagesCount).fill(0),
+                    ({ newLine, index }) =>
+                      newLine(
+                        4,
+                        `workerRef.current.send({ fibonacciIndex: ${
+                          fibonacciIndexes[index] ?? 1
+                        } }),`
+                      )
+                  )
+                  .newLine(0, "];")
+                  .newLine(0, "")
+                  .newLine(0, "const results = await Promise.all(promises);")
+                  .newLine(0, "")
+                  .newLine(0, "setIsRunning(false);")
+                  .concat()}
+              </CodeFragment>
             </>
           )}
 
@@ -409,7 +408,7 @@ setIsRunning(false);`}
 
           <div className="flex gap-2 items-center">
             <Button
-              className={` w-40 bg-gray-700 text-white px-4 py-1 rounded-sm`}
+              className={"w-40 bg-gray-700 text-white px-4 py-1 rounded-sm"}
               onClick={async () => {
                 await executeInWorker({
                   messagesCount: !firstRunFinished ? 1 : messagesCount,
@@ -475,41 +474,43 @@ setIsRunning(false);`}
             look at the definition of the worker below:
           </p>
 
-          <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
-            <code className="language-javascript block overflow-scroll">
-              {`useEffect(() => {
-  workerRef.current = createEasyWebWorker(
-    (easyWorker) => {
-      const fibonacci = (index: number) => {
-        if (index <= 1) return index;
-
-        return fibonacci(index - 1) + fibonacci(index - 2);
-      };
-
-      easyWorker.onMessage((message) => {
-        const { fibonacciIndex } = message.payload;
-        const result = fibonacci(fibonacciIndex);
-
-        message.resolve(result);
-      });
-    },
-    {
-      /**
-       * the only change is that now the native 
-       * Workers will be created on demand,
-       * here we are telling to easy web worker to
-       * use a maximum of 4 workers at the same time.
-      */
-      maxWorkers: 4,
-    }
-  );
-
-  return () => {
-    workerRef.current?.dispose();
-  };
-}, [])`}
-            </code>
-          </pre>
+          <CodeFragment className="bg-stone-100 rounded-sm p-3 animate-fade-in">
+            {write("useEffect(() => {")
+              .newLine(4, "workerRef.current = createEasyWebWorker(")
+              .newLine(8, "(easyWorker) => {")
+              .newLine(12, "const fibonacci = (index: number) => {")
+              .newLine(16, "if (index <= 1) return index;")
+              .newLine(16, "")
+              .newLine(
+                16,
+                "return fibonacci(index - 1) + fibonacci(index - 2);"
+              )
+              .newLine(12, "};")
+              .newLine(12, "")
+              .newLine(12, "easyWorker.onMessage((message) => {")
+              .newLine(16, "const { fibonacciIndex } = message.payload;")
+              .newLine(16, "const result = fibonacci(fibonacciIndex);")
+              .newLine(16, "")
+              .newLine(16, "message.resolve(result);")
+              .newLine(12, "});")
+              .newLine(8, "},")
+              .newLine(8, "{")
+              .newLine(12, "/**")
+              .newLine(12, " * the only change is that now the native")
+              .newLine(12, " * Workers will be created on demand,")
+              .newLine(12, " * here we are telling to easy web worker to")
+              .newLine(12, " * use a maximum of 4 workers at the same time.")
+              .newLine(12, "*/")
+              .newLine(12, "maxWorkers: 4,")
+              .newLine(8, "}")
+              .newLine(4, ");")
+              .newLine(4, "")
+              .newLine(4, "return () => {")
+              .newLine(8, "workerRef.current?.dispose();")
+              .newLine(4, "};")
+              .newLine(0, "}, [])")
+              .concat()}
+          </CodeFragment>
 
           <p className="text-gray-600  ">
             After processing the messages the workers will be disposed to free
@@ -520,21 +521,29 @@ setIsRunning(false);`}
             Now let's take a look at the of the main thread:
           </p>
 
-          <pre className="bg-stone-100 rounded-sm p-3 animate-fade-in">
-            <code className="language-javascript block overflow-scroll">
-              {`setIsRunning(true);
-
-const promises = [
-  workerRef.current.send({ fibonacciIndex: ${fibonacciIndexes[0]} }),
-  workerRef.current.send({ fibonacciIndex: ${fibonacciIndexes[1]} }),
-  workerRef.current.send({ fibonacciIndex: ${fibonacciIndexes[2]} }),
-];
-
-const results = await Promise.all(promises);
-
-setIsRunning(false);`}
-            </code>
-          </pre>
+          <CodeFragment className="bg-stone-100 rounded-sm p-3 animate-fade-in">
+            {write("setIsRunning(true);")
+              .newLine(0, "")
+              .newLine(0, "const promises = [")
+              .newLine(
+                4,
+                `workerRef.current.send({ fibonacciIndex: ${fibonacciIndexes[0]} }),`
+              )
+              .newLine(
+                4,
+                `workerRef.current.send({ fibonacciIndex: ${fibonacciIndexes[1]} }),`
+              )
+              .newLine(
+                4,
+                `workerRef.current.send({ fibonacciIndex: ${fibonacciIndexes[2]} }),`
+              )
+              .newLine(0, "];")
+              .newLine(0, "")
+              .newLine(0, "const results = await Promise.all(promises);")
+              .newLine(0, "")
+              .newLine(0, "setIsRunning(false);")
+              .concat()}
+          </CodeFragment>
 
           <p className="text-gray-600  ">
             From the main thread perspective consider you worker as an WEB API,
@@ -550,7 +559,7 @@ setIsRunning(false);`}
           </p>
 
           <Button
-            className={` w-40 bg-gray-700 text-white px-4 py-1 rounded-sm`}
+            className={"w-40 bg-gray-700 text-white px-4 py-1 rounded-sm"}
             onClick={async () => {
               await executeInWorker({
                 messagesCount: !firstRunFinished ? 3 : messagesCount,
@@ -613,7 +622,7 @@ setIsRunning(false);`}
           )}
 
           <Button
-            className={` w-40 bg-gray-700 text-white px-4 py-1 rounded-sm`}
+            className={"w-40 bg-gray-700 text-white px-4 py-1 rounded-sm"}
             onClick={() => {
               setConfig((state) => ({ ...state, firstRunFinished: true }));
               setState("tap2");

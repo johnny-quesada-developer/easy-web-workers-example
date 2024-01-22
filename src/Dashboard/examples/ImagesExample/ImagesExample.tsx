@@ -1,8 +1,9 @@
 import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { ImageExamplePayload } from "./ImagesExample.types";
-import { Button } from "@shared";
+import { Button, CodeFragment, write } from "@shared";
 import workerUrl from "./ImagesExample.worker?worker&url";
+import merge from "easy-css-merge";
 
 // with vite we create the worker in different ways depending on if we are in production or development
 const isProduction = import.meta.env.MODE === "production";
@@ -96,7 +97,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   }, [scalePercentage]);
 
   return (
-    <div className={`${className}`} {...props}>
+    <div className={merge(className)} {...props}>
       <h3 className="font-bold text-gray-500 border-b border-gray-200 pb-2">
         Lets play with images and{" "}
         <strong className="text-black">EasyWebWorker</strong>
@@ -237,26 +238,25 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
         let's see the code:
       </p>
 
-      <pre>
-        <code className="language-javascript">{`  
-  // Notice that all the heavy computation is done in the worker
-  const scaledFile = await easyWebWorker.sendToMethod<
-    File,
-    ImageExamplePayload
-  >("resize", {
-    file,
-    scalePercentage,
-  });
-
-  const reader = new FileReader();
-
-  reader.onload = function (event) {
-    imageRef.current.src = event.target.result;
-  };
-
-  reader.readAsDataURL(scaledFile);
-`}</code>
-      </pre>
+      <CodeFragment>
+        {write("// Notice that all the heavy computation is done in the worker")
+          .newLine(
+            0,
+            "const scaledFile = await easyWebWorker.sendToMethod<File, ImageExamplePayload>('resize', {"
+          )
+          .newLine(4, "file,")
+          .newLine(4, "scalePercentage,")
+          .newLine(0, "});")
+          .newLine(0, "")
+          .newLine(0, "const reader = new FileReader();")
+          .newLine(0, "")
+          .newLine(0, "reader.onload = function (event) {")
+          .newLine(4, "imageRef.current.src = event.target.result;")
+          .newLine(0, "};")
+          .newLine(0, "")
+          .newLine(0, "reader.readAsDataURL(scaledFile);")
+          .concat()}
+      </CodeFragment>
     </div>
   );
 };

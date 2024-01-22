@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { EasyWebWorker, IEasyWebWorkerMessage } from "easy-web-worker";
-import { Button } from "@shared";
+import { Button, CodeFragment, write } from "@shared";
+import merge from "easy-css-merge";
 
 type ProgressBarExamplePayload = {
   shouldDisplayLogs?: boolean;
@@ -109,7 +110,7 @@ export const ProgressBarExample: React.FC<
   };
 
   return (
-    <div className={`${className} flex flex-col gap-6`} {...props}>
+    <div className={merge(" flex flex-col gap-6", className)} {...props}>
       <h3 className="font-bold text-gray-600 border-b border-gray-200 pb-2">
         Reporting progress from a web worker
       </h3>
@@ -193,25 +194,22 @@ export const ProgressBarExample: React.FC<
           promise, it's extensible.
         </p>
 
-        <pre>
-          <code className="language-javascript block overflow-scroll">
-            {`// Starts the counting
-worker
-  .sendToMethod("start", 'start counting')
-  .onProgress((progress) => {
-    progressBarRef.current.style.width = \`\${progress}%\`;
-  })
-  .then(() => {
-    console.log("worker finished");
-  })
-  .catch(console.log);
-
-
-// Pauses the counting
-worker.sendToMethod("pause");
-`}
-          </code>
-        </pre>
+        <CodeFragment>
+          {write("// Starts the counting")
+            .newLine(0, "worker")
+            .newLine(4, ".sendToMethod('start', 'start counting')")
+            .newLine(4, ".onProgress((progress) => {")
+            .newLine(8, "progressBarRef.current.style.width = `${progress}%`;")
+            .newLine(4, "})")
+            .newLine(4, ".then(() => {")
+            .newLine(8, 'console.log("worker finished");')
+            .newLine(4, "})")
+            .newLine(4, ".catch(console.log);")
+            .newLine(0, "")
+            .newLine(0, "// Pauses the counting")
+            .newLine(0, "worker.sendToMethod('pause');")
+            .concat()}
+        </CodeFragment>
 
         <p className="text-gray-600  my-3">
           Just like that, you can run any heavy operation in the background
@@ -228,55 +226,53 @@ worker.sendToMethod("pause");
           below:
         </p>
 
-        <pre>
-          <code className="language-javascript block overflow-scroll">
-            {`const worker = new EasyWebWorker(({ onMessage }) => {
-  let firstMessage;
-
-  onMessage("start", (message) => {
-    console.log(message.payload); // start counting
-
-    // Save the first message to resolve it later
-    firstMessage = message;
-
-    let count = 0;
-
-    const intervalId = setInterval(() => {
-      count = count >= 100 ? 0 : count + 0.4;
-
-      message.reportProgress(count);
-    }, 10);
-
-    message.onFinalize(() => clearInterval(intervalId));
-  });
-
-  onMessage("pause", (message) => {
-    firstMessage.resolve();
-
-    message.resolve("stop counting");
-  });
-})`}
-          </code>
-        </pre>
+        <CodeFragment>
+          {write("const worker = new EasyWebWorker(({ onMessage }) => {")
+            .newLine(4, "let firstMessage;")
+            .newLine(4, "")
+            .newLine(4, 'onMessage("start", (message) => {')
+            .newLine(8, "console.log(message.payload); // start counting")
+            .newLine(8, "")
+            .newLine(8, "// Save the first message to resolve it later")
+            .newLine(8, "firstMessage = message;")
+            .newLine(8, "")
+            .newLine(8, "let count = 0;")
+            .newLine(8, "")
+            .newLine(8, "const intervalId = setInterval(() => {")
+            .newLine(12, "count = count >= 100 ? 0 : count + 0.4;")
+            .newLine(12, "")
+            .newLine(12, "message.reportProgress(count);")
+            .newLine(8, "}, 10);")
+            .newLine(8, "")
+            .newLine(8, "message.onFinalize(() => clearInterval(intervalId));")
+            .newLine(4, "});")
+            .newLine(4, "")
+            .newLine(4, 'onMessage("pause", (message) => {')
+            .newLine(8, "firstMessage.resolve();")
+            .newLine(8, "")
+            .newLine(8, 'message.resolve("stop counting");')
+            .newLine(4, "});")
+            .newLine(0, "})")
+            .concat()}
+        </CodeFragment>
 
         <p className="text-gray-600  my-3">
           You can create APIs inside your web worker like in the previous
           example, or more simple single callback workers like this one:
         </p>
 
-        <pre>
-          <code className="language-javascript block overflow-scroll">
-            {`const worker = new EasyWebWorker(({ onMessage }) => {
-    onMessage((message) => {
-      const { payload } = message;
-
-      // do something...
-
-      message.resolve();
-    });
-});`}
-          </code>
-        </pre>
+        <CodeFragment>
+          {write("const worker = new EasyWebWorker(({ onMessage }) => {")
+            .newLine(4, "onMessage((message) => {")
+            .newLine(8, "const { payload } = message;")
+            .newLine(8, "")
+            .newLine(8, "// do something...")
+            .newLine(8, "")
+            .newLine(8, "message.resolve();")
+            .newLine(4, "});")
+            .newLine(0, "});")
+            .concat()}
+        </CodeFragment>
       </div>
     </div>
   );

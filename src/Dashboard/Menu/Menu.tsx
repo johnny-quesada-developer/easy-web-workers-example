@@ -14,6 +14,7 @@ import {
   TypescriptExampleSummary,
 } from "./summaries";
 import { tryCatch } from "cancelable-promise-jq";
+import merge from "easy-css-merge";
 
 const onMenuStateChange = ({
   asideRef,
@@ -63,7 +64,6 @@ const onMenuVisibilityChange = ({
 
 export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
-  style,
   ...props
 }) => {
   const [isMenuOpen] = useMenuState(({ isMenuOpen }) => isMenuOpen);
@@ -87,7 +87,7 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
   const options = useMemo(() => {
     return (
-      <ul className={`flex flex-col gap-6`}>
+      <ul className={"flex flex-col gap-6"}>
         {[
           {
             key: "parallel",
@@ -122,19 +122,18 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     <aside
       ref={asideRef}
       {...props}
-      style={{
-        ...style,
-      }}
-      className={`
-      ${className} 
-      animation-fill-mode-forwards 
-      w-full h-fit lg:w-96 mf:w-96      
-      flex flex-col gap-6 
-      ${
-        isMenuOpen
-          ? "animate-expand-from-top mb-6 lg:mr-6 md:mr-6 md:animate-expand-from-left lg:animate-expand-from-left"
-          : "animate-collapse-to-top md:animate-collapse-to-left lg:animate-collapse-to-left"
-      }`}
+      className={merge(
+        "animation-fill-mode-forwards",
+        "w-full h-fit lg:w-96 md:w-96",
+        "flex flex-col gap-6",
+        {
+          "animate-expand-from-top mb-6 lg:mr-6 md:mr-6 md:animate-expand-from-left lg:animate-expand-from-left":
+            isMenuOpen,
+          "animate-collapse-to-top md:animate-collapse-to-left lg:animate-collapse-to-left":
+            !isMenuOpen,
+        },
+        className
+      )}
     >
       {options}
     </aside>

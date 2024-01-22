@@ -5,6 +5,7 @@ import {
   CollapsibleRef,
   useSelectedExample,
 } from "@shared";
+import merge from "easy-css-merge";
 
 export const ParallelExampleSummary: React.FC<
   React.HTMLAttributes<HTMLElement>
@@ -22,7 +23,7 @@ export const ParallelExampleSummary: React.FC<
       title="Parallel computation"
       isOpen={isSelected}
     >
-      <article className={`${className} mt-3`} {...props}>
+      <article className={merge("mt-3", className)} {...props}>
         <p className="text-gray-600 text-justify">
           Create multiple workers to perform parallel computation never was so
           easy.
@@ -46,9 +47,10 @@ export const ParallelExampleSummary: React.FC<
 
       <div className="flex justify-end">
         <Button
-          className={`${
-            isSelected ? "bg-stone-400" : "bg-gray-700"
-          } text-white px-4 py-1 rounded-sm mt-3 w-24`}
+          className={merge("text-white px-4 py-1 rounded-sm mt-3 w-24", {
+            "bg-stone-400": isSelected,
+            "bg-gray-700": !isSelected,
+          })}
           onClick={() => actions.setCurrent(exampleName)}
         >
           {isSelected ? "Selected" : "Select"}

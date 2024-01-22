@@ -413,6 +413,11 @@ dlv@^1.1.3:
   resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
   integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
 
+easy-css-merge@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/easy-css-merge/-/easy-css-merge-1.0.0.tgz#b7734c34ae0f62fc0029bcb2bc81f65d689974fc"
+  integrity sha512-iCwKV/XnrwLiWnLG9VYFktxVE0OaSjaeQ01czt8mc8yudAWQhQDmxcwwxLj2vGyw12OZ39JeKz9OuAK42dHUAA==
+
 easy-web-worker@^6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/easy-web-worker/-/easy-web-worker-6.1.0.tgz#7e2abb7c0834c3f56ae4435c47a7abc1d1d0f472"

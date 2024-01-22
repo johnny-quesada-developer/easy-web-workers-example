@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { CurrentExample } from "./CurrentExample";
-import { Card, menuState, themeState, MIN_WITH_FOR_TWO_COLUMNS } from "@shared";
+import { Card, menuState, theme, MIN_WITH_FOR_TWO_COLUMNS } from "@shared";
 import { ThemeButton } from "./ThemeButton";
 import { Header } from "@src/Header";
 import { Menu } from "./Menu";
@@ -18,8 +18,6 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = () => {
     };
 
     window.addEventListener("resize", handler);
-
-    themeState.highlight();
 
     return () => {
       window.removeEventListener("resize", handler);
