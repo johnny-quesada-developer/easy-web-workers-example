@@ -10,10 +10,7 @@ export const Card: React.FC<CardProps> = ({
 }: CardProps) => {
   return (
     <div
-      className={merge(
-        "rounded-lg shadow-lg bg-white dark:bg-stone-100 p-6",
-        className
-      )}
+      className={merge("rounded-lg shadow-lg bg-white p-6", className)}
       {...props}
     >
       {children}

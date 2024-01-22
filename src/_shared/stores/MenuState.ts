@@ -15,12 +15,12 @@ const initialState: MenuState = {
   isMenuVisible: true,
 };
 
-export const [useMenuState, getMenuState, menuState] =
+export const [useMenuState, getMenuState, menu] =
   createGlobalStateWithDecoupledFuncs(initialState, {
     actions: {
       open() {
         return ({ setState }: StoreTools<typeof initialState>) => {
-          window.scrollTo(0, 0);
+          window.scrollTo({ top: 0, behavior: "smooth" });
 
           setState((state) => ({ ...state, isMenuOpen: true }));
         };

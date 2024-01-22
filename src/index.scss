@@ -25,3 +25,17 @@ html,
   position: relative;
   scroll-behavior: smooth;
 }
+
+.animate-none,
+.animate-none * {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

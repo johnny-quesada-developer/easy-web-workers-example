@@ -15,11 +15,15 @@ const MyComponent: React.FC<WorkerCodeExamplesProps> = ({
 
   return (
     <div className={merge(className)} {...prop} ref={elementRef}>
-      <div className="w-full flex justify-end">
+      <div className="w-full flex flex-wrap justify-end gap-3 pb-3">
+        <span className=" text-purple-600 border-gray-200 flex-1 flex justify-start items-center">
+          Take a look on the code below:
+        </span>
+
         {(["javascript", "react", "react_ts"] as TExample[]).map((item) => (
           <button
             key={item}
-            className={merge("text-sm font-semibold text-gray-600 mr-3 mb-3", {
+            className={merge("text-sm font-semibold text-gray-600", {
               "text-purple-500": example === item,
             })}
             onClick={() => setExample(item)}

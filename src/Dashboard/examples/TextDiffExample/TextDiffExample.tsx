@@ -82,12 +82,14 @@ export const TextDiffExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
           <textarea
             className="border border-gray-200 rounded-sm p-2 bg-indigo-25"
             name="input1"
+            id="input1"
             rows={10}
           />
 
           <textarea
             className="border border-gray-200 rounded-sm p-2 bg-indigo-25"
             name="input2"
+            id="input2"
             rows={10}
           />
 

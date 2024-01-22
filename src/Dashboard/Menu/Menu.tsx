@@ -1,11 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import {
-  MenuState,
-  getMenuState,
-  useMenuState,
-  Card,
-  menuState,
-} from "@shared";
+import { MenuState, getMenuState, useMenuState, Card, menu } from "@shared";
 import {
   ProgressBarExampleSummary,
   DiffLibExampleSummary,
@@ -51,8 +45,8 @@ const onMenuVisibilityChange = ({
 }: {
   asideRef: React.MutableRefObject<HTMLElement>;
 }) => {
-  const observer = new IntersectionObserver(([menu]) => {
-    menuState.setVisibility(menu.isIntersecting);
+  const observer = new IntersectionObserver(([item]) => {
+    menu.setVisibility(item.isIntersecting);
   });
 
   observer.observe(asideRef.current);
@@ -87,7 +81,7 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
   const options = useMemo(() => {
     return (
-      <ul className={"flex flex-col gap-6"}>
+      <ul className={"flex flex-col gap-2"}>
         {[
           {
             key: "parallel",

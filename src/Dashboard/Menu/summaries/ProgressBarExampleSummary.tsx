@@ -1,24 +1,20 @@
-import { useRef } from "react";
-import {
-  Button,
-  Collapsible,
-  CollapsibleRef,
-  useSelectedExample,
-} from "@shared";
+import { Button, Collapsible } from "@shared";
 import merge from "easy-css-merge";
+import { useExampleSummary } from "./useExampleSummary";
 
 export const ProgressBarExampleSummary: React.FC<
   React.HTMLAttributes<HTMLElement>
 > = ({ className, ...props }) => {
   const exampleName = "progress-bar";
-  const [isSelected, actions] = useSelectedExample(
-    (state) => state.name === exampleName
-  );
-
-  const collapseRef = useRef<CollapsibleRef>(null);
+  const { isSelected, selectThisExample, collapsibleRef } =
+    useExampleSummary(exampleName);
 
   return (
-    <Collapsible ref={collapseRef} title="Report progress" isOpen={isSelected}>
+    <Collapsible
+      ref={collapsibleRef}
+      title="Report progress"
+      isOpen={isSelected}
+    >
       <article className={merge("mt-3", className)} {...props}>
         <p className="text-gray-600 text-justify">
           With <strong>EasyWebWorker</strong>, you can move computationally
@@ -41,7 +37,7 @@ export const ProgressBarExampleSummary: React.FC<
             "bg-stone-400": isSelected,
             "bg-gray-700": !isSelected,
           })}
-          onClick={() => actions.setCurrent(exampleName)}
+          onClick={selectThisExample}
         >
           {isSelected ? "Selected" : "Select"}
         </Button>

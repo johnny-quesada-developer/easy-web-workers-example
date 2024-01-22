@@ -1,30 +1,37 @@
-import {
+import React, {
+  HtmlHTMLAttributes,
   PropsWithChildren,
-  forwardRef,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
 } from "react";
+import merge, { MergeFilter } from "easy-css-merge";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import "./Collapsible.scss";
-import merge from "easy-css-merge";
 
-type CollapsibleProps = PropsWithChildren<
-  React.HTMLAttributes<HTMLElement> & {
-    title: string | JSX.Element;
-    isOpen?: boolean;
-  }
->;
-
-export type CollapsibleRef = {
+export type CollapsibleApi = {
   open: () => void;
   close: () => void;
 };
 
-export const Collapsible = forwardRef<unknown, CollapsibleProps>(
-  ({ children, title, className, isOpen, ...props }: CollapsibleProps, ref) => {
-    const detailsRef = useRef<HTMLDetailsElement>(null);
+export type CollapsibleRef = [HTMLDetailsElement, CollapsibleApi];
+
+export type CollapsibleProps = PropsWithChildren<
+  HtmlHTMLAttributes<HTMLDetailsElement>
+> & {
+  /**
+   * This parameter allows you to filter the default set of classes, so you can override
+   */
+  classNameFilter?: MergeFilter;
+  title: string | JSX.Element;
+  isOpen?: boolean;
+  childrenContainerClassName?: string;
+};
+
+export const Collapsible = React.forwardRef<CollapsibleRef, CollapsibleProps>(
+  ({ className, classNameFilter, children, title, isOpen, ...props }, ref) => {
+    const containerRef = useRef<HTMLDetailsElement>(null);
 
     const [isCollapsibleOpen, setCollapsibleState] = useState(isOpen);
 
@@ -33,7 +40,7 @@ export const Collapsible = forwardRef<unknown, CollapsibleProps>(
 
       setCollapsibleState((prevState) => !prevState);
 
-      const content = detailsRef.current.querySelector(
+      const content = containerRef.current.querySelector(
         ".collapsible-details"
       ) as HTMLElement;
 
@@ -44,33 +51,38 @@ export const Collapsible = forwardRef<unknown, CollapsibleProps>(
     };
 
     useEffect(() => {
-      const { current } = detailsRef;
+      const { current } = containerRef;
 
       if (!current) return;
 
       if (isCollapsibleOpen) {
-        detailsRef.current.classList.add("open");
+        containerRef.current.classList.add("open");
 
         return;
       }
 
-      detailsRef.current.classList.remove("open");
+      containerRef.current.classList.remove("open");
     }, [isCollapsibleOpen]);
 
     useEffect(() => {
       setCollapsibleState(isOpen);
     }, [isOpen]);
 
-    useImperativeHandle<unknown, CollapsibleRef>(
+    useImperativeHandle(
       ref,
-      () => ({
-        open: () => {
-          setCollapsibleState(true);
-        },
-        close: () => {
-          setCollapsibleState(false);
-        },
-      }),
+      () => {
+        // add your public api here
+        const api: CollapsibleApi = {
+          open: () => {
+            setCollapsibleState(true);
+          },
+          close: () => {
+            setCollapsibleState(false);
+          },
+        };
+
+        return [containerRef.current, api] as CollapsibleRef;
+      },
       []
     );
 
@@ -79,7 +91,7 @@ export const Collapsible = forwardRef<unknown, CollapsibleProps>(
     return (
       <details
         {...props}
-        ref={detailsRef}
+        ref={containerRef}
         open={true}
         className={merge("collapsible marker:no-underline", className)}
       >

@@ -52,7 +52,15 @@ const loadTheme = (value: string): Promise<void> => {
 export type ThemeState = "prism-tomorrow" | "prism";
 
 export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
-  "prism-tomorrow" as ThemeState,
+  (() => {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    )
+      return "prism-tomorrow";
+
+    return "prism";
+  })() as ThemeState,
   {
     localStorage: {
       key: "app-theme",

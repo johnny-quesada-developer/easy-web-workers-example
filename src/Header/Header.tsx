@@ -14,7 +14,8 @@ export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
     <header
       {...props}
       className={merge(
-        "h-14 bg-gray-700 flex items-center justify-start px-6 gap-3",
+        "h-14 flex items-center justify-start px-6 gap-3",
+        "bg-stone-500 dark:bg-gray-800",
         className
       )}
     >

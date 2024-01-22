@@ -125,6 +125,7 @@ export const ImagesExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
 
             <div className="flex items-center gap-2 border border-gray-300 p-1 my-3 pl-2">
               <input
+                id="scalePercentage"
                 className="rounded-sm h-8 w-36  "
                 type="number"
                 name="scalePercentage"
