@@ -39,3 +39,13 @@ html,
     transition: none !important;
   }
 }
+
+.first-load {
+  .animate-fade-in,
+  .animate-collapse-to-left,
+  .animate-expand-from-left,
+  .animate-collapse-to-top,
+  .animate-expand-from-top {
+    animation-duration: 0s !important;
+  }
+}

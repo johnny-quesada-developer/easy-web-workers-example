@@ -19,6 +19,17 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = () => {
 
     window.addEventListener("resize", handler);
 
+    setTimeout(() => {
+      // this class disable the animations on the first load
+      document.body.classList.remove("first-load");
+    }, 1000);
+
+    document.addEventListener("click", function firstClick(event: Event) {
+      document.body.classList.remove("first-load");
+
+      document.removeEventListener("click", firstClick);
+    });
+
     return () => {
       window.removeEventListener("resize", handler);
     };
