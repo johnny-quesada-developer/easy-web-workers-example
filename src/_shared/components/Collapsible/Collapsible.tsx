@@ -39,15 +39,6 @@ export const Collapsible = React.forwardRef<CollapsibleRef, CollapsibleProps>(
       event?.preventDefault();
 
       setCollapsibleState((prevState) => !prevState);
-
-      const content = containerRef.current.querySelector(
-        ".collapsible-details"
-      ) as HTMLElement;
-
-      if (isCollapsibleOpen) {
-        // to perform the animation the height must be set
-        content.style.height = content.clientHeight + "px";
-      }
     };
 
     useEffect(() => {
@@ -92,7 +83,7 @@ export const Collapsible = React.forwardRef<CollapsibleRef, CollapsibleProps>(
       <details
         {...props}
         ref={containerRef}
-        open={true}
+        open={isCollapsibleOpen}
         className={merge("collapsible marker:no-underline", className)}
       >
         <summary
@@ -119,15 +110,7 @@ export const Collapsible = React.forwardRef<CollapsibleRef, CollapsibleProps>(
           </button>
         </summary>
 
-        <div
-          className={merge(
-            "collapsible-details overflow-hidden animation-fill-mode-forwards",
-            {
-              "animate-expand-from-top": isCollapsibleOpen,
-              "animate-collapse-to-top": !isCollapsibleOpen,
-            }
-          )}
-        >
+        <div className={merge("collapsible-details overflow-hidden")}>
           {children}
         </div>
       </details>

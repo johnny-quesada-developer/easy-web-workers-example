@@ -1,9 +1,4 @@
-import {
-  StoreTools,
-  createGlobalState,
-  createGlobalStateWithDecoupledFuncs,
-} from "react-global-state-hooks";
-import { StateConfigCallbackParam } from "react-hooks-global-states";
+import { createGlobalState } from "react-global-state-hooks/createGlobalState";
 import { MIN_WITH_FOR_TWO_COLUMNS } from "./MenuState";
 
 export type TExample =
@@ -29,25 +24,25 @@ const initialState: SelectedExample = {
   name: "parallel",
 };
 
-export const [useSelectedExample, getSelectedExample, selectedExample] =
-  createGlobalStateWithDecoupledFuncs(initialState, {
-    actions: {
-      setCurrent: (value: TExample) => {
-        return ({ setState }: StoreTools<SelectedExample>) => {
-          const baseUrl = window.location.href.split("#")[0];
+export const useSelectedExample = createGlobalState(initialState, {
+  actions: {
+    setCurrent: (value: TExample) => {
+      return ({ setState }) => {
+        const baseUrl = window.location.href.split("#")[0];
 
-          window.history.pushState({}, "", `${baseUrl}#${value}`);
+        window.history.pushState({}, "", `${baseUrl}#${value}`);
 
-          const isOneColumn = window.innerWidth < MIN_WITH_FOR_TWO_COLUMNS;
+        const isOneColumn = window.innerWidth < MIN_WITH_FOR_TWO_COLUMNS;
 
-          if (!isOneColumn) {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
+        if (!isOneColumn) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
 
-          setState((state) => ({ ...state, name: value }));
-        };
-      },
+        setState((state) => ({ ...state, name: value }));
+      };
     },
+  },
+  callbacks: {
     onInit: ({ setState }) => {
       const urlParams = new URLSearchParams(window.location.search);
 
@@ -75,4 +70,8 @@ export const [useSelectedExample, getSelectedExample, selectedExample] =
 
       window.history.pushState({}, "", `${baseUrl}#${selectedExample}`);
     },
-  });
+  },
+});
+
+export const [getSelectedExample, selectedExample] =
+  useSelectedExample.stateControls();

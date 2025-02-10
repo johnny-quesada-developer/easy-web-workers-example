@@ -598,11 +598,6 @@ jiti@^1.19.1:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
-json-storage-formatter@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/json-storage-formatter/-/json-storage-formatter-1.0.9.tgz#600e4771673d017a3cab03f2ab4d6ea60cc6abea"
-  integrity sha512-Z2aqXz2WCiAY/FLVbcNrDHjFFBrED3BDL9ZQD3fRnKP0BUfuXAjeln5jWEXRJY7Sanj/wSoSpJU6iufdiqhBVw==
-
 lilconfig@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.1.0.tgz#78e23ac89ebb7e1bfbf25b18043de756548e7f52"
@@ -804,19 +799,17 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-global-state-hooks@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/react-global-state-hooks/-/react-global-state-hooks-3.0.6.tgz#5f8e6a5be3de48ddb23f827dda80213fc40297a6"
-  integrity sha512-xFC9uh8jua/Cw0isuPYaGWTQgqDQli7L4+ctHlN6QWomauEUMe5PrOCyY83HCScYJiSd+MR5DNgWvq7NVkUrJg==
+react-global-state-hooks@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-global-state-hooks/-/react-global-state-hooks-7.0.0.tgz#c3d5f4972f0db647f429b9bba79697bef8f3b139"
+  integrity sha512-AuayS/DTROlGZJRFXRZ3OjiZ1iVcM4jqAG+J5DsqIsbEAcRNPex4oyV0mqE4kv9CEnUbwX478NMOz/DmGFAJLw==
   dependencies:
-    react-hooks-global-states "^1.0.5"
+    react-hooks-global-states "^6.0.6"
 
-react-hooks-global-states@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-hooks-global-states/-/react-hooks-global-states-1.0.5.tgz#ec576b4be7d961b00811ba651e827f5321237083"
-  integrity sha512-XNK3wpCJ5ToAENa0AF02ftMibA43xNttM9TBujypvVE8bIaZWunFjzBKdC/oLspip4eebKhiIZqvI7KDm/ev/Q==
-  dependencies:
-    json-storage-formatter "^1.0.9"
+react-hooks-global-states@^6.0.6:
+  version "6.0.6"
+  resolved "https://registry.yarnpkg.com/react-hooks-global-states/-/react-hooks-global-states-6.0.6.tgz#4db76bd55587800340c341c74f3b85e0cd7368b8"
+  integrity sha512-NqolLemonCJ3YXp3KFGv+4s0/ESD6C7NSVSEVhUKXhmgKg3csCmWIhFjSkA/hiGpgqDa5fp1eZck3laf7r+PGg==
 
 react-icons@^4.8.0:
   version "4.12.0"

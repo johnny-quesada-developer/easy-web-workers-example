@@ -16,26 +16,24 @@ const onMenuStateChange = ({
   asideRef: React.MutableRefObject<HTMLElement>;
 }) => {
   // subscriptions are executed first than the component update
-  const unsubscribe = getMenuState<true>((subscribe) => {
-    subscribe(
-      (menuState: MenuState) => {
-        if (!menuState.isMenuOpen) {
-          // to perform the animation the height must be set
-          asideRef.current.style.height = asideRef.current.clientHeight + "px";
+  const unsubscribe = getMenuState(
+    (menuState: MenuState) => {
+      if (!menuState.isMenuOpen) {
+        // to perform the animation the height must be set
+        asideRef.current.style.height = asideRef.current.clientHeight + "px";
 
-          return;
-        }
-
-        // after the animation the height must be removed
-        setTimeout(() => {
-          asideRef.current.style.height = null;
-        }, 300);
-      },
-      {
-        skipFirst: true,
+        return;
       }
-    );
-  });
+
+      // after the animation the height must be removed
+      setTimeout(() => {
+        asideRef.current.style.height = null;
+      }, 300);
+    },
+    {
+      skipFirst: true,
+    }
+  );
 
   return unsubscribe;
 };

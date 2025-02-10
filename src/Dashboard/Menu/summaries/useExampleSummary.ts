@@ -20,14 +20,12 @@ export const useExampleSummary = (exampleName: TExample) => {
   useEffect(() => {
     if (!collapsibleRef.current) return;
 
-    const unsubscribe = getSelectedExample<true>((subscribe) => {
-      subscribe((state) => {
-        const [, actions] = collapsibleRef.current;
+    const unsubscribe = getSelectedExample((state) => {
+      const [, actions] = collapsibleRef.current;
 
-        if (state.name === exampleName) return;
+      if (state.name === exampleName) return;
 
-        actions.close();
-      });
+      actions.close();
     });
 
     return () => unsubscribe();

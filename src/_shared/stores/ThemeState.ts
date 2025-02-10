@@ -3,10 +3,7 @@ import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 
-import {
-  createGlobalStateWithDecoupledFuncs,
-  StoreTools,
-} from "react-global-state-hooks";
+import { createGlobalState } from "react-global-state-hooks/createGlobalState";
 
 import prismTomorrowUrl from "prismjs/themes/prism-tomorrow.css?url";
 import prismUrl from "prismjs/themes/prism.css?url";
@@ -24,6 +21,7 @@ const loadTheme = (value: string): Promise<void> => {
   const themeUrl = value === "prism-tomorrow" ? prismTomorrowUrl : prismUrl;
 
   if (mode !== "production") {
+    /* @vite-ignore */
     source.promise = import(themeUrl).then(() => {
       source.isLoaded = true;
     });
@@ -51,7 +49,7 @@ const loadTheme = (value: string): Promise<void> => {
 
 export type ThemeState = "prism-tomorrow" | "prism";
 
-export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
+export const useTheme = createGlobalState(
   (() => {
     if (
       window.matchMedia &&
@@ -65,32 +63,23 @@ export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
     localStorage: {
       key: "app-theme",
     },
-    onInit: async ({ getState }) => {
-      const value = getState();
-
-      document.documentElement.classList.add(
-        value === "prism-tomorrow" ? "dark" : "light"
-      );
-
-      await loadTheme(value);
-    },
     actions: {
       highlight: () => {
-        return async ({ getState }: StoreTools<ThemeState>) => {
+        return async ({ getState }) => {
           await loadTheme(getState());
 
           prismjs.highlightAll();
         };
       },
       highlightElement: (element: HTMLElement) => {
-        return async ({ getState }: StoreTools<ThemeState>) => {
+        return async ({ getState }) => {
           await loadTheme(getState());
 
           prismjs.highlightElement(element, false);
         };
       },
       toggle: () => {
-        return ({ setState }: StoreTools) => {
+        return ({ setState }) => {
           setState((state) =>
             state === "prism-tomorrow" ? "prism" : "prism-tomorrow"
           );
@@ -98,6 +87,19 @@ export const [useTheme, getTheme, theme] = createGlobalStateWithDecoupledFuncs(
           window.location.reload();
         };
       },
-    } as const,
+    },
+    callbacks: {
+      onInit: async ({ getState }) => {
+        const value = getState();
+
+        document.documentElement.classList.add(
+          value === "prism-tomorrow" ? "dark" : "light"
+        );
+
+        await loadTheme(value);
+      },
+    },
   }
 );
+
+export const [getTheme, theme] = useTheme.stateControls();

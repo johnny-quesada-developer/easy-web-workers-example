@@ -2,10 +2,11 @@ import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { EasyWebWorker } from "easy-web-worker";
 import { ImageExamplePayload } from "./ImagesExample.types";
 import { Button, CodeFragment, write } from "@shared";
-import workerUrl from "./ImagesExample.worker?worker&url";
 import merge from "easy-css-merge";
 
 // with vite we create the worker in different ways depending on if we are in production or development
+import workerUrl from "./ImagesExample.worker?worker&url";
+
 const isProduction = import.meta.env.MODE === "production";
 
 const worker = new EasyWebWorker(
