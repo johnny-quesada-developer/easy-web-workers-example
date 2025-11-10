@@ -1,4 +1,4 @@
-import { isPromise, tryCatch, tryCatchPromise } from "cancelable-promise-jq";
+import { isPromise, tryCatch, tryCatchPromise } from "easy-cancelable-promise";
 import merge from "easy-css-merge";
 import { PropsWithChildren, useCallback, useRef } from "react";
 import { ImSpinner } from "react-icons/im";

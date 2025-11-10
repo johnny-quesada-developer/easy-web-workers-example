@@ -1,4 +1,4 @@
-import { createGlobalState } from "react-global-state-hooks/createGlobalState";
+import createGlobalState from "react-global-state-hooks/createGlobalState";
 
 export const MIN_WITH_FOR_TWO_COLUMNS = 768;
 
@@ -12,10 +12,10 @@ const initialState: MenuState = {
   isMenuVisible: true,
 };
 
-export const useMenuState = createGlobalState(initialState, {
+export const menu$ = createGlobalState(initialState, {
   localStorage: {
     key: "app-menu",
-    encrypt: true,
+    validator: (value: unknown) => {},
   },
   actions: {
     open() {
@@ -45,5 +45,3 @@ export const useMenuState = createGlobalState(initialState, {
     },
   },
 });
-
-export const [getMenuState, menu] = useMenuState.stateControls();

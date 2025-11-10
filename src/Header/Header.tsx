@@ -1,14 +1,14 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoIosArrowBack } from "react-icons/io";
 
-import { useMenuState } from "@shared";
+import { menu$ } from "@shared";
 import merge from "easy-css-merge";
 
 export const Header: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
   ...props
 }) => {
-  const [isMenuOpen, actions] = useMenuState(({ isMenuOpen }) => isMenuOpen);
+  const [isMenuOpen, actions] = menu$(({ isMenuOpen }) => isMenuOpen);
 
   return (
     <header

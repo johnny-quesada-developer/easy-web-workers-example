@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { CurrentExample } from "./CurrentExample";
-import { Card, menu, theme, MIN_WITH_FOR_TWO_COLUMNS } from "@shared";
+import { Card, menu$, theme$, MIN_WITH_FOR_TWO_COLUMNS } from "@shared";
 import { ThemeButton } from "./ThemeButton";
 import { Header } from "@src/Header";
 import { Menu } from "./Menu";
@@ -9,12 +9,12 @@ export const Dashboard: React.FC<React.HTMLAttributes<HTMLElement>> = () => {
   useEffect(() => {
     const handler = () => {
       if (window.innerWidth >= MIN_WITH_FOR_TWO_COLUMNS) {
-        menu.open();
+        menu$.actions.open();
 
         return;
       }
 
-      menu.close();
+      menu$.actions.close();
     };
 
     window.addEventListener("resize", handler);

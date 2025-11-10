@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { EasyWebWorker, createEasyWebWorker } from "easy-web-worker";
-import { Button, theme, selectedExample, write, CodeFragment } from "@shared";
+import { Button, write, CodeFragment, selectedExample$ } from "@shared";
 import WorkerCodeExamples from "./WorkerCodeExamples";
 import merge from "easy-css-merge";
 
@@ -608,7 +608,9 @@ export const ParallelExample: React.FC<React.HTMLAttributes<HTMLElement>> = ({
                   progress from inside the worker to the main thread!! (take a
                   look at the{" "}
                   <a
-                    onClick={() => selectedExample.setCurrent("progress-bar")}
+                    onClick={() =>
+                      selectedExample$.actions.setCurrent("progress-bar")
+                    }
                     className="text-blue-500 hover:underline cursor-pointer"
                   >
                     report progress example

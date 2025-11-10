@@ -3,7 +3,7 @@ import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 
-import { createGlobalState } from "react-global-state-hooks/createGlobalState";
+import createGlobalState from "react-global-state-hooks/createGlobalState";
 
 import prismTomorrowUrl from "prismjs/themes/prism-tomorrow.css?url";
 import prismUrl from "prismjs/themes/prism.css?url";
@@ -49,7 +49,7 @@ const loadTheme = (value: string): Promise<void> => {
 
 export type ThemeState = "prism-tomorrow" | "prism";
 
-export const useTheme = createGlobalState(
+export const theme$ = createGlobalState(
   (() => {
     if (
       window.matchMedia &&
@@ -62,6 +62,7 @@ export const useTheme = createGlobalState(
   {
     localStorage: {
       key: "app-theme",
+      validator: (value: unknown) => {},
     },
     actions: {
       highlight: () => {
@@ -101,5 +102,3 @@ export const useTheme = createGlobalState(
     },
   }
 );
-
-export const [getTheme, theme] = useTheme.stateControls();

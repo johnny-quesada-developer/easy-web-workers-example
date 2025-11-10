@@ -1,11 +1,11 @@
-import { useTheme } from "@shared";
+import { theme$ } from "@shared";
 import React from "react";
 import { FaRegLightbulb, FaLightbulb } from "react-icons/fa";
 
 export const ThemeButton: React.FC<
   React.ButtonHTMLAttributes<HTMLButtonElement>
 > = (props) => {
-  const [theme, actions] = useTheme();
+  const [theme, actions] = theme$();
 
   return (
     <button

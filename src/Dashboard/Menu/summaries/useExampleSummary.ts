@@ -1,15 +1,10 @@
-import {
-  CollapsibleRef,
-  TExample,
-  getSelectedExample,
-  useSelectedExample,
-} from "@src/_shared";
+import { CollapsibleRef, TExample, selectedExample$ } from "@src/_shared";
 import { useEffect, useRef } from "react";
 
 export const useExampleSummary = (exampleName: TExample) => {
   const collapsibleRef = useRef<CollapsibleRef>(null);
 
-  const [isSelected, actions] = useSelectedExample(
+  const [isSelected, actions] = selectedExample$.use(
     (state) => state.name === exampleName
   );
 
@@ -20,7 +15,7 @@ export const useExampleSummary = (exampleName: TExample) => {
   useEffect(() => {
     if (!collapsibleRef.current) return;
 
-    const unsubscribe = getSelectedExample((state) => {
+    const unsubscribe = selectedExample$.subscribe((state) => {
       const [, actions] = collapsibleRef.current;
 
       if (state.name === exampleName) return;

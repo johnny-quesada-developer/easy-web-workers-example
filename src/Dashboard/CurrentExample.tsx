@@ -1,4 +1,4 @@
-import { useSelectedExample } from "@shared";
+import { selectedExample$ } from "@shared";
 import {
   ProgressBarExample,
   ImagesExample,
@@ -12,7 +12,7 @@ import merge from "easy-css-merge";
 export type CurrentExampleProps = {};
 
 export const CurrentExample: React.FC<CurrentExampleProps> = React.memo(() => {
-  const [{ name: exampleName }] = useSelectedExample();
+  const [{ name: exampleName }] = selectedExample$();
 
   return (
     <div>

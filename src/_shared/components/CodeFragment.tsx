@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from "react";
 import merge, { MergeFilter } from "easy-css-merge";
-import { theme } from "@shared";
+import { theme$ } from "@shared";
 
 export type CodeFragmentApi = {};
 
@@ -115,7 +115,9 @@ export const CodeFragment = React.forwardRef<
     useEffect(() => {
       if (!containerRef.current) return;
 
-      theme.highlightElement(containerRef.current.firstChild as HTMLElement);
+      theme$.actions.highlightElement(
+        containerRef.current.firstChild as HTMLElement
+      );
     }, [children]);
 
     return (

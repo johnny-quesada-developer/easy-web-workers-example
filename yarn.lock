@@ -358,11 +358,6 @@ camelcase-css@^2.0.1:
   resolved "https://registry.yarnpkg.com/camelcase-css/-/camelcase-css-2.0.1.tgz#ee978f6947914cc30c6b44741b6ed1df7f043fd5"
   integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
-cancelable-promise-jq@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/cancelable-promise-jq/-/cancelable-promise-jq-2.0.4.tgz#d170a26c8fcd291fed01f396143b7505b45df00c"
-  integrity sha512-9hQO+/tlAKIXVYeJJui3ZLLYV/z3eCplnfuR5eWrKWn2E276uUFEsUpelRkVszfH5IHfb2ThJwwvt52lHnOluQ==
-
 caniuse-lite@^1.0.30001538, caniuse-lite@^1.0.30001541:
   version "1.0.30001564"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001564.tgz#eaa8bbc58c0cbccdcb7b41186df39dd2ba591889"
@@ -412,6 +407,11 @@ dlv@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
   integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
+
+easy-cancelable-promise@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/easy-cancelable-promise/-/easy-cancelable-promise-1.0.3.tgz#1e8bc14b506f614a145abdffcc25f62133912278"
+  integrity sha512-hPwcwLjDWis8c7xzOYzG1ThuZPIA34VtGCSWIS1G1+rh6oODz3oL5N3rf5FrDBm6p5xe02ismgj6zt/hp4PsjQ==
 
 easy-css-merge@^1.0.0:
   version "1.0.0"
@@ -597,6 +597,11 @@ jiti@^1.19.1:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
+
+json-storage-formatter@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/json-storage-formatter/-/json-storage-formatter-3.0.2.tgz#575d92d85b532c8ec91dbf6556f45df3f1e72fea"
+  integrity sha512-H5+2fRLur/hmHa6coYIGJX/j+8o4G0AjGQ+1mirKzdiBYw0V51T0Nyur6/WTQqNo1OsdqZxSjKYgcnnr+Z4SIw==
 
 lilconfig@^2.1.0:
   version "2.1.0"
@@ -799,17 +804,20 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-global-state-hooks@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-global-state-hooks/-/react-global-state-hooks-7.0.0.tgz#c3d5f4972f0db647f429b9bba79697bef8f3b139"
-  integrity sha512-AuayS/DTROlGZJRFXRZ3OjiZ1iVcM4jqAG+J5DsqIsbEAcRNPex4oyV0mqE4kv9CEnUbwX478NMOz/DmGFAJLw==
+react-global-state-hooks@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/react-global-state-hooks/-/react-global-state-hooks-15.0.0.tgz#9a4cce825e1f03fdc951c79d4530c77b81d89a23"
+  integrity sha512-NBaTTjS4RDLgg8pf7EIhcgZagx3NaSEfF8BBYW81Kew+ycBIw0be0On+t6vVy0X3dk8dCHa5SUld6OHC2XnPHw==
   dependencies:
-    react-hooks-global-states "^6.0.6"
+    json-storage-formatter "^3.0.2"
+    react-hooks-global-states "^15.0.0"
 
-react-hooks-global-states@^6.0.6:
-  version "6.0.6"
-  resolved "https://registry.yarnpkg.com/react-hooks-global-states/-/react-hooks-global-states-6.0.6.tgz#4db76bd55587800340c341c74f3b85e0cd7368b8"
-  integrity sha512-NqolLemonCJ3YXp3KFGv+4s0/ESD6C7NSVSEVhUKXhmgKg3csCmWIhFjSkA/hiGpgqDa5fp1eZck3laf7r+PGg==
+react-hooks-global-states@^15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/react-hooks-global-states/-/react-hooks-global-states-15.0.0.tgz#77950474bd8579e87b46c9bbc2c27fa03bb5d072"
+  integrity sha512-njJ/ATo9J3z3aFtYfPqr0jU2+urm/8ClEAXnxREeLjoILOdv+oo8gGPQP2PdYoSdEXh3nVEmMTIcxQQ67NEfTg==
+  dependencies:
+    json-storage-formatter "^3.0.2"
 
 react-icons@^4.8.0:
   version "4.12.0"

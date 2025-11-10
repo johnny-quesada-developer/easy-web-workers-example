@@ -24,7 +24,7 @@ const initialState: SelectedExample = {
   name: "parallel",
 };
 
-export const useSelectedExample = createGlobalState(initialState, {
+export const selectedExample$ = createGlobalState(initialState, {
   actions: {
     setCurrent: (value: TExample) => {
       return ({ setState }) => {
@@ -72,6 +72,3 @@ export const useSelectedExample = createGlobalState(initialState, {
     },
   },
 });
-
-export const [getSelectedExample, selectedExample] =
-  useSelectedExample.stateControls();

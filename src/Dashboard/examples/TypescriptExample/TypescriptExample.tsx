@@ -1,6 +1,6 @@
 import EasyWebWorker, { createEasyWebWorker } from "easy-web-worker";
 import workerUrl from "./TypescriptExample.worker?worker&url";
-import { Button, CodeFragment, Collapsible, theme } from "@src/_shared";
+import { Button, CodeFragment, Collapsible } from "@src/_shared";
 import { useRef, useState, useEffect } from "react";
 import merge from "easy-css-merge";
 

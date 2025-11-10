@@ -81,7 +81,7 @@ const handleToggleProgress = (isRunning: boolean) => {
     .onProgress((count) => {
       ref.current.style.width = `${count}%`;
     })
-    // the messages returns CancelablePromise from cancelable-promise-jq which
+    // the messages returns CancelablePromise from easy-cancelable-promise which
     .then(() => {
       console.log("worker finished");
     });

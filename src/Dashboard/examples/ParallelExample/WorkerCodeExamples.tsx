@@ -1,4 +1,4 @@
-import { CodeFragment, theme, write } from "@src/_shared";
+import { CodeFragment, write } from "@src/_shared";
 import merge from "easy-css-merge";
 import React, { useRef, useState } from "react";
 

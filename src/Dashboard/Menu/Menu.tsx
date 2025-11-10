@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { MenuState, getMenuState, useMenuState, Card, menu } from "@shared";
+import { Card, menu$, MenuState } from "@shared";
 import {
   ProgressBarExampleSummary,
   DiffLibExampleSummary,
@@ -7,7 +7,7 @@ import {
   ParallelExampleSummary,
   TypescriptExampleSummary,
 } from "./summaries";
-import { tryCatch } from "cancelable-promise-jq";
+import { tryCatch } from "easy-cancelable-promise";
 import merge from "easy-css-merge";
 
 const onMenuStateChange = ({
@@ -16,7 +16,7 @@ const onMenuStateChange = ({
   asideRef: React.MutableRefObject<HTMLElement>;
 }) => {
   // subscriptions are executed first than the component update
-  const unsubscribe = getMenuState(
+  const unsubscribe = menu$.subscribe(
     (menuState: MenuState) => {
       if (!menuState.isMenuOpen) {
         // to perform the animation the height must be set
@@ -44,7 +44,7 @@ const onMenuVisibilityChange = ({
   asideRef: React.MutableRefObject<HTMLElement>;
 }) => {
   const observer = new IntersectionObserver(([item]) => {
-    menu.setVisibility(item.isIntersecting);
+    menu$.actions.setVisibility(item.isIntersecting);
   });
 
   observer.observe(asideRef.current);
@@ -58,7 +58,7 @@ export const Menu: React.FC<React.HTMLAttributes<HTMLElement>> = ({
   className,
   ...props
 }) => {
-  const [isMenuOpen] = useMenuState(({ isMenuOpen }) => isMenuOpen);
+  const [isMenuOpen] = menu$(({ isMenuOpen }) => isMenuOpen);
 
   const asideRef = useRef(null);
 
